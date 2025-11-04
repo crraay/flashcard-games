@@ -1,0 +1,13 @@
+<div class="game-selector-container">
+  <h1>Choose a Game</h1>
+  <div class="games-grid">
+    <button
+      *ngFor="let game of games"
+      (click)="selectGame(game)"
+      class="game-card"
+      type="button">
+      <h2>{{ game.name }}</h2>
+      <p>{{ game.description }}</p>
+    </button>
+  </div>
+</div>

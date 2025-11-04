@@ -1,0 +1,17 @@
+<div class="flashcard-set-selector-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Games
+  </button>
+  <h1>Choose a Flashcard Set</h1>
+  <div class="sets-grid">
+    <button
+      *ngFor="let set of sets"
+      (click)="selectSet(set)"
+      class="set-card"
+      type="button">
+      <h2>{{ set.name }}</h2>
+      <p>{{ set.description }}</p>
+      <span class="card-count">{{ set.flashcardIds.length }} cards</span>
+    </button>
+  </div>
+</div>
