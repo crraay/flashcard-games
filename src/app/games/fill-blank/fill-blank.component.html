@@ -1,0 +1,77 @@
+<div class="fill-blank-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Word {{ currentQuestionIndex + 1 }}/{{ questions.length }}</span>
+      <span class="stat">Score: {{ score }}/{{ questions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete && getCurrentQuestion()" class="game-content">
+    <div class="word-image">
+      <img [src]="getCurrentQuestion()!.flashcard.imageUrl" [alt]="getCurrentQuestion()!.flashcard.caption" />
+    </div>
+
+    <div class="instructions">
+      <h3>Fill in the missing letters!</h3>
+    </div>
+
+    <div class="blank-pattern">
+      <div class="pattern-display">
+        <span 
+          *ngFor="let char of getCurrentQuestion()!.blankPattern.split(''); let i = index"
+          [class]="'pattern-char ' + (char === '_' ? 'blank' : 'letter')">
+          {{ char }}
+        </span>
+      </div>
+    </div>
+
+    <div class="answer-input-area">
+      <label for="userAnswer">Type your answer:</label>
+      <input
+        id="userAnswer"
+        type="text"
+        [(ngModel)]="userAnswer"
+        (keyup.enter)="checkAnswer()"
+        [disabled]="showResult"
+        placeholder="Enter the word"
+        class="answer-input"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false">
+    </div>
+
+    <div class="actions">
+      <button
+        class="check-button"
+        [class.disabled]="!canCheckAnswer() || showResult"
+        (click)="checkAnswer()"
+        type="button">
+        Check Answer
+      </button>
+    </div>
+
+    <div *ngIf="showResult" class="result-message">
+      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
+        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
+        <p *ngIf="!isCorrect">
+          ❌ Not quite. The correct answer is: <strong>{{ getCurrentQuestion()!.correctAnswer }}</strong>
+        </p>
+      </div>
+      <button class="next-button" (click)="nextQuestion()" type="button">
+        {{ currentQuestionIndex + 1 < questions.length ? 'Next Word' : 'Finish Game' }}
+      </button>
+    </div>
+  </div>
+</div>

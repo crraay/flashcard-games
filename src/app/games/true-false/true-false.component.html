@@ -1,0 +1,68 @@
+<div class="true-false-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Question {{ currentQuestionIndex + 1 }}/{{ questions.length }}</span>
+      <span class="stat">Score: {{ score }}/{{ questions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete && getCurrentQuestion()" class="game-content">
+    <div class="word-image">
+      <img [src]="getCurrentQuestion()!.flashcard.imageUrl" [alt]="getCurrentQuestion()!.flashcard.caption" />
+    </div>
+
+    <div class="statement-area">
+      <div class="statement-label">Is this statement true or false?</div>
+      <div class="statement-text">
+        {{ getCurrentQuestion()!.statement }}
+      </div>
+    </div>
+
+    <div class="answer-buttons">
+      <button
+        class="answer-button true-button"
+        [class.selected]="selectedAnswer === true"
+        [class.correct]="showResult && isCorrect && selectedAnswer === true"
+        [class.incorrect]="showResult && !isCorrect && selectedAnswer === true"
+        [class.disabled]="showResult"
+        (click)="selectAnswer(true)"
+        type="button">
+        ✓ TRUE
+      </button>
+      <button
+        class="answer-button false-button"
+        [class.selected]="selectedAnswer === false"
+        [class.correct]="showResult && isCorrect && selectedAnswer === false"
+        [class.incorrect]="showResult && !isCorrect && selectedAnswer === false"
+        [class.disabled]="showResult"
+        (click)="selectAnswer(false)"
+        type="button">
+        ✗ FALSE
+      </button>
+    </div>
+
+    <div *ngIf="showResult" class="result-message">
+      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
+        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
+        <p *ngIf="!isCorrect">
+          ❌ Wrong. The statement is <strong>{{ getCurrentQuestion()!.isCorrect ? 'TRUE' : 'FALSE' }}</strong>.
+        </p>
+      </div>
+      <button class="next-button" (click)="nextQuestion()" type="button">
+        {{ currentQuestionIndex + 1 < questions.length ? 'Next Question' : 'Finish Game' }}
+      </button>
+    </div>
+  </div>
+</div>

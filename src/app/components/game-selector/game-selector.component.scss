@@ -76,6 +76,21 @@
   background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
 }
 
+// Fill in the Blank - Teal gradient (darker, more vibrant)
+.game-fill-blank {
+  background: linear-gradient(135deg, #00897b 0%, #004d40 100%);
+}
+
+// True or False - Orange gradient (darker, more vibrant)
+.game-true-false {
+  background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+}
+
+// Word Search - Indigo gradient (darker, more vibrant)
+.game-word-search {
+  background: linear-gradient(135deg, #3949ab 0%, #1a237e 100%);
+}
+
 @media (max-width: 768px) {
   .game-selector-container {
     padding: 1rem;

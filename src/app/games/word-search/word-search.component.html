@@ -1,0 +1,60 @@
+<div class="word-search-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Found: {{ foundWords }}/{{ wordPositions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-content">
+    <div class="word-list">
+      <h3>Find these words:</h3>
+      <div class="words-grid">
+        <span
+          *ngFor="let wordPos of wordPositions; let i = index"
+          [class]="'word-item ' + (wordPos.found ? 'found' : '') + ' ' + (wordPos.givenUp ? 'given-up' : '')">
+          {{ wordPos.word }}
+        </span>
+      </div>
+      <button class="give-up-button" (click)="giveUp()" type="button">
+        Give Up
+      </button>
+    </div>
+
+    <div class="search-grid-container" #gridContainer>
+      <div class="search-grid">
+        <div
+          *ngFor="let row of grid; let rowIndex = index"
+          class="grid-row">
+          <div
+            *ngFor="let cell of row; let colIndex = index"
+            [class]="'grid-cell ' + (cell.isSelected ? 'selected' : '') + ' ' + (cell.isFound ? 'found' : '') + ' ' + (cell.isGivenUp ? 'given-up' : '')"
+            (click)="onCellClick(rowIndex, colIndex)">
+            {{ cell.letter }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <p>Click letters one by one (horizontally or vertically) to form words</p>
+    </div>
+
+    <div class="finish-actions" *ngIf="readyToFinish">
+      <button class="continue-button" (click)="finishGame()" type="button">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>

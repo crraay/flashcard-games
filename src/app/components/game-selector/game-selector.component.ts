@@ -37,6 +37,21 @@ export class GameSelectorComponent {
       id: 'word-scramble',
       name: 'Word Scramble',
       description: 'Unscramble letters to spell the word shown in the image'
+    },
+    {
+      id: 'fill-blank',
+      name: 'Fill in the Blank',
+      description: 'Fill in missing letters to complete the word'
+    },
+    {
+      id: 'true-false',
+      name: 'True or False',
+      description: 'Decide if statements about the images are true or false'
+    },
+    {
+      id: 'word-search',
+      name: 'Word Search',
+      description: 'Find hidden words in a letter grid'
     }
   ];
 

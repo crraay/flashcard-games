@@ -5,6 +5,9 @@ import { MatchingGameComponent } from './games/matching-game/matching-game.compo
 import { MemoryGameComponent } from './games/memory-game/memory-game.component';
 import { QuizGameComponent } from './games/quiz-game/quiz-game.component';
 import { WordScrambleComponent } from './games/word-scramble/word-scramble.component';
+import { FillBlankComponent } from './games/fill-blank/fill-blank.component';
+import { TrueFalseComponent } from './games/true-false/true-false.component';
+import { WordSearchComponent } from './games/word-search/word-search.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +33,18 @@ export const routes: Routes = [
   {
     path: 'games/word-scramble/:setId',
     component: WordScrambleComponent
+  },
+  {
+    path: 'games/fill-blank/:setId',
+    component: FillBlankComponent
+  },
+  {
+    path: 'games/true-false/:setId',
+    component: TrueFalseComponent
+  },
+  {
+    path: 'games/word-search/:setId',
+    component: WordSearchComponent
   },
   {
     path: '**',
