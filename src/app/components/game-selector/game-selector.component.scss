@@ -20,7 +20,6 @@
 }
 
 .game-card {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   border: none;
   border-radius: 20px;
   padding: 2rem;
@@ -55,6 +54,21 @@
     margin: 0.5rem 0;
     opacity: 0.9;
   }
+}
+
+// Matching Game - Blue gradient
+.game-matching {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+// Memory Game - Green gradient
+.game-memory {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+// Quiz Game - Orange gradient
+.game-quiz {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
 @media (max-width: 768px) {

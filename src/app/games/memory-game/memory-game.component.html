@@ -1,0 +1,41 @@
+<div class="memory-game-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back
+  </button>
+
+  <div *ngIf="selectedSet" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Moves: {{ moves }}</span>
+      <span class="stat">Pairs: {{ pairsMatched }}/{{ cards.length / 2 }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameWon"
+    title="🎉 Congratulations! 🎉"
+    [message]="'You matched all pairs in ' + moves + ' moves!'"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div
+    *ngIf="selectedSet && !gameWon"
+    class="cards-grid"
+    [style.grid-template-columns]="'repeat(' + gridColumns + ', 1fr)'">
+    <div
+      *ngFor="let card of cards"
+      class="memory-card"
+      [class.flipped]="card.isFlipped"
+      [class.matched]="card.isMatched"
+      [class.checking]="isChecking && flippedCards.includes(card)"
+      (click)="flipCard(card)">
+      <div class="card-front">
+        <span class="card-icon">?</span>
+      </div>
+      <div class="card-back">
+        <img *ngIf="card.type === 'image'" [src]="card.content" [alt]="card.content" />
+        <span *ngIf="card.type === 'caption'" class="caption-text">{{ card.content }}</span>
+      </div>
+    </div>
+  </div>
+</div>

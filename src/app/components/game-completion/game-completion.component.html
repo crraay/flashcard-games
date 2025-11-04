@@ -1,0 +1,13 @@
+<div class="game-completion-overlay">
+  <div class="game-completion-message">
+    <h3>{{ title }}</h3>
+    <div *ngIf="message" class="message-content" [innerHTML]="getFormattedMessage()"></div>
+    <button
+      *ngIf="showRestart"
+      class="restart-button"
+      (click)="onRestart()"
+      type="button">
+      Play Again
+    </button>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { FlashcardSet, Flashcard } from '../../models/flashcard.model';
 import { FlashcardService } from '../../services/flashcard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GameCompletionComponent } from '../../components/game-completion/game-completion.component';
 
 interface Connection {
   flashcardId: string;
@@ -17,7 +18,7 @@ interface Connection {
 @Component({
   selector: 'fg-matching-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GameCompletionComponent],
   templateUrl: './matching-game.component.html',
   styleUrl: './matching-game.component.scss'
 })
@@ -32,6 +33,9 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedCaptionId: string | null = null;
   connections: Connection[] = [];
   tempLineEnd: { x: number; y: number } | null = null;
+  gameCompleted: boolean = false;
+  correctMatches: number = 0;
+  totalMoves: number = 0;
   private mouseMoveHandler: ((event: MouseEvent) => void) | null = null;
   private resizeHandler: (() => void) | null = null;
 
@@ -220,11 +224,43 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
       };
 
       this.connections.push(connection);
+      this.totalMoves++;
+
+      // Check if game is completed (all flashcards have correct connections)
+      this.checkGameCompletion();
     }
+  }
+
+  checkGameCompletion(): void {
+    // Count correct connections
+    this.correctMatches = this.connections.filter(c => c.isCorrect).length;
+
+    // Game is complete when all flashcards have correct connections
+    if (this.correctMatches === this.flashcards.length && this.flashcards.length > 0) {
+      this.gameCompleted = true;
+    }
+  }
+
+  restartGame(): void {
+    this.connections = [];
+    this.selectedImageId = null;
+    this.selectedCaptionId = null;
+    this.tempLineEnd = null;
+    this.gameCompleted = false;
+    this.correctMatches = 0;
+    this.totalMoves = 0;
+    this.shuffledCaptions = this.shuffleArray([...this.flashcards]);
+
+    // Recalculate connections after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      this.updateSvgSize();
+    }, 0);
   }
 
   removeConnection(flashcardId: string): void {
     this.connections = this.connections.filter(c => c.flashcardId !== flashcardId);
+    // Recheck completion status after removing a connection
+    this.checkGameCompletion();
   }
 
   getLineCoordinates(flashcardId: string): { x1: number; y1: number; x2: number; y2: number } | null {
@@ -271,8 +307,10 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goBack(): void {
-    const gameId = this.route.snapshot.params['gameId'];
-    if (gameId) {
+    // Extract gameId from route URL (e.g., '/games/matching/:setId' -> 'matching')
+    const routeUrl = this.route.snapshot.url;
+    if (routeUrl.length >= 2 && routeUrl[0].path === 'games') {
+      const gameId = routeUrl[1].path;
       this.router.navigate(['/games', gameId, 'select']);
     } else {
       this.router.navigate(['/']);

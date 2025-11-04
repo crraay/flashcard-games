@@ -48,7 +48,6 @@
 }
 
 .set-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 20px;
   padding: 2rem;
@@ -90,6 +89,21 @@
     opacity: 0.8;
     font-weight: 500;
   }
+}
+
+// Nature Set - Green gradient
+.set-set1 {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+// Animals Set - Orange gradient
+.set-set2 {
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+}
+
+// House Items Set - Purple gradient
+.set-set3 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 @media (max-width: 768px) {

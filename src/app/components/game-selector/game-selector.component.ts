@@ -22,8 +22,17 @@ export class GameSelectorComponent {
       id: 'matching',
       name: 'Matching Game',
       description: 'Match images with their captions by drawing lines'
+    },
+    {
+      id: 'memory',
+      name: 'Memory Game',
+      description: 'Find matching pairs by flipping cards'
+    },
+    {
+      id: 'quiz',
+      name: 'Quiz Game',
+      description: 'Test your knowledge with multiple choice questions'
     }
-    // Add more games here in the future
   ];
 
   constructor(private router: Router) {}

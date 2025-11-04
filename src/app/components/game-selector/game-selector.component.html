@@ -4,7 +4,7 @@
     <button
       *ngFor="let game of games"
       (click)="selectGame(game)"
-      class="game-card"
+      [class]="'game-card game-' + game.id"
       type="button">
       <h2>{{ game.name }}</h2>
       <p>{{ game.description }}</p>
