@@ -32,6 +32,11 @@ export class GameSelectorComponent {
       id: 'quiz',
       name: 'Quiz Game',
       description: 'Test your knowledge with multiple choice questions'
+    },
+    {
+      id: 'word-scramble',
+      name: 'Word Scramble',
+      description: 'Unscramble letters to spell the word shown in the image'
     }
   ];
 

@@ -56,19 +56,24 @@
   }
 }
 
-// Matching Game - Blue gradient
+// Matching Game - Blue gradient (darker, more vibrant)
 .game-matching {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
 }
 
-// Memory Game - Green gradient
+// Memory Game - Green gradient (darker, more vibrant)
 .game-memory {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
 }
 
-// Quiz Game - Orange gradient
+// Quiz Game - Orange/Red gradient (darker, more vibrant)
 .game-quiz {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #e64a19 0%, #bf360c 100%);
+}
+
+// Word Scramble - Purple gradient (darker, more vibrant)
+.game-word-scramble {
+  background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
 }
 
 @media (max-width: 768px) {

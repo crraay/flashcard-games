@@ -4,6 +4,7 @@ import { FlashcardSetSelectorComponent } from './components/flashcard-set-select
 import { MatchingGameComponent } from './games/matching-game/matching-game.component';
 import { MemoryGameComponent } from './games/memory-game/memory-game.component';
 import { QuizGameComponent } from './games/quiz-game/quiz-game.component';
+import { WordScrambleComponent } from './games/word-scramble/word-scramble.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
   {
     path: 'games/quiz/:setId',
     component: QuizGameComponent
+  },
+  {
+    path: 'games/word-scramble/:setId',
+    component: WordScrambleComponent
   },
   {
     path: '**',
