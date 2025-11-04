@@ -13,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -33,14 +33,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build -- --base-href /flashcard-games/
-
-      - name: List build output
-        run: |
-          echo "Checking dist/browser structure:"
-          ls -la dist/browser/ || echo "dist/browser not found"
-          echo "Checking dist/browser/browser structure:"
-          ls -la dist/browser/browser/ || echo "dist/browser/browser not found"
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -48,12 +41,11 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/browser/browser
+          path: dist/browser
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
