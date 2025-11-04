@@ -35,13 +35,20 @@ jobs:
       - name: Build
         run: npm run build -- --base-href /flashcard-games/
 
+      - name: List build output
+        run: |
+          echo "Checking dist/browser structure:"
+          ls -la dist/browser/ || echo "dist/browser not found"
+          echo "Checking dist/browser/browser structure:"
+          ls -la dist/browser/browser/ || echo "dist/browser/browser not found"
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/browser
+          path: dist/browser/browser
 
   deploy:
     runs-on: ubuntu-latest
