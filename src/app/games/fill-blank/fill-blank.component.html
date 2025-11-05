@@ -1,6 +1,6 @@
 <div class="fill-blank-container">
   <button class="back-button" (click)="goBack()" type="button">
-    ← Back
+    ← Back to Game Selection
   </button>
 
   <div *ngIf="selectedSet && !gameComplete" class="game-header">
@@ -29,7 +29,7 @@
 
     <div class="blank-pattern">
       <div class="pattern-display">
-        <span 
+        <span
           *ngFor="let char of getCurrentQuestion()!.blankPattern.split(''); let i = index"
           [class]="'pattern-char ' + (char === '_' ? 'blank' : 'letter')">
           {{ char }}

@@ -307,11 +307,10 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goBack(): void {
-    // Extract gameId from route URL (e.g., '/games/matching/:setId' -> 'matching')
-    const routeUrl = this.route.snapshot.url;
-    if (routeUrl.length >= 2 && routeUrl[0].path === 'games') {
-      const gameId = routeUrl[1].path;
-      this.router.navigate(['/games', gameId, 'select']);
+    // Navigate back to game selection for the current set
+    const setId = this.route.snapshot.params['setId'];
+    if (setId) {
+      this.router.navigate(['/sets', setId, 'select']);
     } else {
       this.router.navigate(['/']);
     }

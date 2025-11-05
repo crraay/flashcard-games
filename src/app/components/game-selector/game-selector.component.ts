@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 interface Game {
@@ -16,7 +16,7 @@ interface Game {
   templateUrl: './game-selector.component.html',
   styleUrl: './game-selector.component.scss'
 })
-export class GameSelectorComponent {
+export class GameSelectorComponent implements OnInit {
   games: Game[] = [
     {
       id: 'matching',
@@ -55,10 +55,27 @@ export class GameSelectorComponent {
     }
   ];
 
-  constructor(private router: Router) {}
+  setId: string = '';
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    // Get setId from route params
+    this.setId = this.route.snapshot.params['setId'] || '';
+  }
 
   selectGame(game: Game): void {
-    // Navigate to flashcard selector for the selected game
-    this.router.navigate(['/games', game.id, 'select']);
+    // Navigate to game with selected setId
+    if (this.setId) {
+      this.router.navigate(['/games', game.id, this.setId]);
+    }
+  }
+
+  goBack(): void {
+    // Navigate back to flashcard set selection (home)
+    this.router.navigate(['/']);
   }
 }

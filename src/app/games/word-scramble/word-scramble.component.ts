@@ -55,7 +55,7 @@ export class WordScrambleComponent implements OnInit {
     if (!this.selectedSet) return;
 
     const flashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
-    
+
     // Shuffle flashcards for random order
     this.shuffleArray(flashcards);
 
@@ -116,7 +116,7 @@ export class WordScrambleComponent implements OnInit {
 
     const currentQuestion = this.questions[this.currentQuestionIndex];
     const userWord = this.userAnswer.join('');
-    
+
     this.isCorrect = userWord === currentQuestion.correctAnswer;
     this.showResult = true;
 
@@ -127,7 +127,7 @@ export class WordScrambleComponent implements OnInit {
 
   nextQuestion(): void {
     this.currentQuestionIndex++;
-    
+
     if (this.currentQuestionIndex >= this.questions.length) {
       this.gameComplete = true;
     } else {
@@ -173,10 +173,10 @@ export class WordScrambleComponent implements OnInit {
   }
 
   goBack(): void {
-    const routeUrl = this.route.snapshot.url;
-    if (routeUrl.length >= 2 && routeUrl[0].path === 'games') {
-      const gameId = routeUrl[1].path;
-      this.router.navigate(['/games', gameId, 'select']);
+    // Navigate back to game selection for the current set
+    const setId = this.route.snapshot.params['setId'];
+    if (setId) {
+      this.router.navigate(['/sets', setId, 'select']);
     } else {
       this.router.navigate(['/']);
     }

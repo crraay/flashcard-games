@@ -12,11 +12,11 @@ import { WordSearchComponent } from './games/word-search/word-search.component';
 export const routes: Routes = [
   {
     path: '',
-    component: GameSelectorComponent
+    component: FlashcardSetSelectorComponent
   },
   {
-    path: 'games/:gameId/select',
-    component: FlashcardSetSelectorComponent
+    path: 'sets/:setId/select',
+    component: GameSelectorComponent
   },
   {
     path: 'games/matching/:setId',

@@ -78,7 +78,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
 
     this.flashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
     this.allFlashcards = this.flashcardService.getAllFlashcards();
-    
+
     // Get words from flashcards (convert to uppercase, filter short words)
     this.words = this.flashcards
       .map(f => f.caption.toUpperCase())
@@ -97,10 +97,10 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
   generateGrid(): void {
     let attempts = 0;
     const maxAttempts = 10;
-    
+
     while (attempts < maxAttempts) {
       // Initialize empty grid
-      this.grid = Array(this.gridSize).fill(null).map(() => 
+      this.grid = Array(this.gridSize).fill(null).map(() =>
         Array(this.gridSize).fill(null).map(() => ({
           letter: '',
           isSelected: false,
@@ -111,7 +111,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
       );
 
       this.wordPositions = [];
-      
+
       // Shuffle words for random placement
       const shuffledWords = [...this.words];
       this.shuffleArray(shuffledWords);
@@ -143,7 +143,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
       if (this.gridSize < 15) {
         this.gridSize = Math.min(15, this.gridSize + 2);
       }
-      
+
       attempts++;
     }
 
@@ -159,7 +159,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
 
     // Update word positions with actual coordinates
     this.updateWordPositions();
-    
+
     // Reset game state
     this.foundWords = 0;
     this.selectedCells = [];
@@ -180,7 +180,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
     const attempts = 100;
     for (let attempt = 0; attempt < attempts; attempt++) {
       const direction = shuffledDirections[attempt % shuffledDirections.length];
-      
+
       // Calculate valid bounds for this direction
       let maxRow = this.gridSize;
       let maxCol = this.gridSize;
@@ -199,10 +199,10 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
 
       if (maxRow < 0 || maxCol < 0 || minCol >= maxCol) continue;
 
-      const row = direction.dr === 0 
+      const row = direction.dr === 0
         ? Math.floor(Math.random() * this.gridSize)
         : Math.floor(Math.random() * Math.max(1, maxRow));
-      const col = direction.dc < 0 
+      const col = direction.dc < 0
         ? minCol + Math.floor(Math.random() * Math.max(1, maxCol - minCol))
         : direction.dc === 0
         ? Math.floor(Math.random() * this.gridSize)
@@ -253,7 +253,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
       const word = this.wordPositions[i].word;
       // Find the word in the grid by checking wordIndex
       let startRow = -1, startCol = -1;
-      
+
       for (let row = 0; row < this.gridSize; row++) {
         for (let col = 0; col < this.gridSize; col++) {
           if (this.grid[row][col].wordIndex === i) {
@@ -276,8 +276,8 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
       for (const dir of directions) {
         const endRow = startRow + (word.length - 1) * dir.dr;
         const endCol = startCol + (word.length - 1) * dir.dc;
-        
-        if (endRow >= 0 && endRow < this.gridSize && 
+
+        if (endRow >= 0 && endRow < this.gridSize &&
             endCol >= 0 && endCol < this.gridSize &&
             this.grid[endRow][endCol]?.wordIndex === i) {
           this.wordPositions[i] = {
@@ -304,34 +304,34 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
 
   onCellClick(row: number, col: number): void {
     if (this.gameComplete) return;
-    
+
     // Allow selecting all cells, even if they're part of found words (words can cross)
-    
+
     const cellIndex = this.selectedCells.findIndex(c => c.row === row && c.col === col);
-    
+
     // If clicking on already selected cell, deselect it and all after it
     if (cellIndex !== -1) {
       this.selectedCells = this.selectedCells.slice(0, cellIndex);
       this.updateSelection();
       return;
     }
-    
+
     // If no cells selected yet, start selection
     if (this.selectedCells.length === 0) {
       this.selectedCells = [{ row, col }];
       this.updateSelection();
       return;
     }
-    
+
     // Check if the clicked cell is adjacent to the last selected cell (horizontal or vertical only)
     const lastCell = this.selectedCells[this.selectedCells.length - 1];
     const rowDiff = row - lastCell.row;
     const colDiff = col - lastCell.col;
-    
+
     // Must be adjacent horizontally (same row) or vertically (same column), no diagonal
     const isHorizontal = rowDiff === 0 && Math.abs(colDiff) === 1;
     const isVertical = colDiff === 0 && Math.abs(rowDiff) === 1;
-    
+
     if (isHorizontal || isVertical) {
       // Check if we're maintaining direction
       if (this.selectedCells.length === 1) {
@@ -344,17 +344,17 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
         // Check if we're continuing in the same direction
         const firstCell = this.selectedCells[0];
         const secondCell = this.selectedCells[1];
-        
+
         const firstDir = {
           dr: secondCell.row - firstCell.row,
           dc: secondCell.col - firstCell.col
         };
-        
+
         const newDir = {
           dr: rowDiff,
           dc: colDiff
         };
-        
+
         // Must continue in same direction (normalize direction)
         const normalizedFirstDir = {
           dr: firstDir.dr === 0 ? 0 : (firstDir.dr > 0 ? 1 : -1),
@@ -364,7 +364,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
           dr: newDir.dr === 0 ? 0 : (newDir.dr > 0 ? 1 : -1),
           dc: newDir.dc === 0 ? 0 : (newDir.dc > 0 ? 1 : -1)
         };
-        
+
         // Must continue in same direction
         if (normalizedFirstDir.dr === normalizedNewDir.dr && normalizedFirstDir.dc === normalizedNewDir.dc) {
           this.selectedCells.push({ row, col });
@@ -384,11 +384,11 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
       this.updateSelection();
     }
   }
-  
+
   autoCheckWord(): void {
     // Check if current selection matches any word
     if (this.selectedCells.length < 3) return;
-    
+
     const selectedWord = this.selectedCells
       .map(cell => this.grid[cell.row][cell.col].letter)
       .join('');
@@ -450,7 +450,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
         wordPos.found = true;
         wordPos.givenUp = true;
         this.foundWords++;
-        
+
         // Mark all cells of this word as found (but show in red)
         const direction = this.getDirectionVector(wordPos);
         for (let j = 0; j < wordPos.word.length; j++) {
@@ -472,7 +472,7 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
   getDirectionVector(wordPos: WordPosition): { dr: number; dc: number } {
     const dr = wordPos.endRow - wordPos.startRow;
     const dc = wordPos.endCol - wordPos.startCol;
-    
+
     // Normalize direction
     if (dr === 0) {
       return { dr: 0, dc: dc > 0 ? 1 : -1 };
@@ -520,10 +520,10 @@ export class WordSearchComponent implements OnInit, AfterViewInit {
   }
 
   goBack(): void {
-    const routeUrl = this.route.snapshot.url;
-    if (routeUrl.length >= 2 && routeUrl[0].path === 'games') {
-      const gameId = routeUrl[1].path;
-      this.router.navigate(['/games', gameId, 'select']);
+    // Navigate back to game selection for the current set
+    const setId = this.route.snapshot.params['setId'];
+    if (setId) {
+      this.router.navigate(['/sets', setId, 'select']);
     } else {
       this.router.navigate(['/']);
     }
