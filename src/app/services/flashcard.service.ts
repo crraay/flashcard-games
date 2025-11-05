@@ -23,7 +23,15 @@ export class FlashcardService {
     { id: '15', imageUrl: 'https://i.pinimg.com/736x/fd/b5/e9/fdb5e92095e956b781b5046b569a25a0.jpg', caption: 'Snack' },
     { id: '16', imageUrl: 'https://i.pinimg.com/564x/71/98/d9/7198d94e74a561dca6576916547b5cec.jpg', caption: 'Duck' },
     { id: '17', imageUrl: 'https://img.freepik.com/free-vector/padlock-coloured-outline_78370-548.jpg?semt=ais_hybrid&w=740&q=80', caption: 'Lock' },
-    { id: '18', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxOzAPnbxIGpLeAd9ebitWVCBzgaVaP6xaw&s', caption: 'Neck' }
+    { id: '18', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxOzAPnbxIGpLeAd9ebitWVCBzgaVaP6xaw&s', caption: 'Neck' },
+    { id: '19', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/fingerprints-2-unit-1-lesson-4/run.PNG', caption: 'Jog' },
+    { id: '20', imageUrl: 'https://yourhomework.net/yhw/f/yhw-voca/2024/10/0/202410060935391271841.jpg', caption: 'Cop' },
+    { id: '21', imageUrl: 'https://yourhomework.net/yhw/f/yhw-voca/2023/09/1/202309130901199337990.jpg', caption: 'Hop' },
+    { id: '22', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/sgk-tieng-anh-2-i-learn-smart-start-unit-5-2/top.PNG', caption: 'Top' },
+    { id: '23', imageUrl: 'https://yourhomework.net/yhw/bfc/images/vocabulary/english/oxford-phonics-world-2-unit-6-op/pop.jpg', caption: 'Pop' },
+    { id: '24', imageUrl: 'https://yourhomework.net/yhw/f/yhw-voca/2024/04/2/202404201426231378483.jpg', caption: 'Pot' },
+    { id: '25', imageUrl: 'https://yourhomework.net/yhw/f/yhw-voca/2024/07/1/202407120853336547315.jpg', caption: 'Stop' },
+    { id: '26', imageUrl: 'https://yourhomework.net/yhw/f/yhw-voca/2024/04/2/202404201426373654125.jpg', caption: 'Mop' }
   ];
 
   private flashcardSets: FlashcardSet[] = [
@@ -55,7 +63,13 @@ export class FlashcardService {
       id: 'set5',
       name: 'All',
       description: 'All flashcards',
-      flashcardIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']
+      flashcardIds: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26']
+    },
+    {
+      id: 'set6',
+      name: 'Short vowel O',
+      description: 'Words with short vowel O sound',
+      flashcardIds: ['19', '20', '21', '22', '23', '24', '25', '26']
     }
   ];
 
