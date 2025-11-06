@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { APP_BASE_HREF } from '@angular/common';
 
 interface Game {
   id: string;
@@ -74,11 +73,8 @@ export class GameSelectorComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    @Optional() @Inject(APP_BASE_HREF) private baseHref: string
-  ) {
-    this.baseHref = this.baseHref || '/';
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     // Get setId from route params
@@ -97,12 +93,4 @@ export class GameSelectorComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  getImagePath(path: string | undefined): string {
-    if (!path) return '';
-    // Remove leading slash from baseHref if present, and ensure path starts correctly
-    const base = this.baseHref.endsWith('/') ? this.baseHref : this.baseHref + '/';
-    // Remove leading slash from path if present
-    const cleanPath = path.startsWith('/') ? path.substring(1) : path;
-    return base + cleanPath;
-  }
 }

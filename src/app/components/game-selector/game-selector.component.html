@@ -12,7 +12,7 @@
       <h2>{{ game.name }}</h2>
       <img
         *ngIf="game.imagePath"
-        [src]="getImagePath(game.imagePath)"
+        [src]="game.imagePath"
         [alt]="game.name"
         class="game-image">
       <p>{{ game.description }}</p>
