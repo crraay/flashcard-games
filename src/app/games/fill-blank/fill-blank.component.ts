@@ -3,20 +3,26 @@ import { FlashcardSet, Flashcard } from '../../models/flashcard.model';
 import { FlashcardService } from '../../services/flashcard.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { GameCompletionComponent } from '../../components/game-completion/game-completion.component';
+
+interface BlankOption {
+  position: number; // position in the word
+  correctLetter: string;
+  options: string[]; // correct letter + incorrect letters
+}
 
 interface FillBlankQuestion {
   flashcard: Flashcard;
   correctAnswer: string;
   blankPattern: string; // e.g., "C_T" for "CAT"
   blankIndices: number[]; // indices of missing letters
+  blankOptions: BlankOption[]; // letter options for each blank
 }
 
 @Component({
   selector: 'fg-fill-blank',
   standalone: true,
-  imports: [CommonModule, FormsModule, GameCompletionComponent],
+  imports: [CommonModule, GameCompletionComponent],
   templateUrl: './fill-blank.component.html',
   styleUrl: './fill-blank.component.scss'
 })
@@ -25,7 +31,8 @@ export class FillBlankComponent implements OnInit {
   questions: FillBlankQuestion[] = [];
   currentQuestionIndex: number = 0;
   score: number = 0;
-  userAnswer: string = '';
+  userAnswer: string[] = []; // Array to store selected letters for each blank
+  availableLetters: { [position: number]: string[] } = {}; // Available letters for each blank position
   gameComplete: boolean = false;
   showResult: boolean = false;
   isCorrect: boolean = false;
@@ -81,11 +88,26 @@ export class FillBlankComponent implements OnInit {
         blankIndices.includes(index) ? '_' : letter
       ).join('');
 
+      // Generate letter options for each blank
+      const blankOptions: BlankOption[] = blankIndices.map(position => {
+        const correctLetter = letters[position];
+        const incorrectLetters = this.generateIncorrectLetters(correctLetter, 3); // 3 incorrect options
+        const allOptions = [correctLetter, ...incorrectLetters];
+        this.shuffleArray(allOptions); // Shuffle so correct letter isn't always first
+
+        return {
+          position,
+          correctLetter,
+          options: allOptions
+        };
+      });
+
       return {
         flashcard,
         correctAnswer: word,
         blankPattern,
-        blankIndices
+        blankIndices,
+        blankOptions
       };
     });
 
@@ -96,9 +118,34 @@ export class FillBlankComponent implements OnInit {
   }
 
   resetCurrentQuestion(): void {
-    this.userAnswer = '';
+    const question = this.getCurrentQuestion();
+    if (question) {
+      // Initialize user answer array with empty strings for each blank
+      this.userAnswer = new Array(question.blankIndices.length).fill('');
+      // Initialize available letters for each blank position
+      this.availableLetters = {};
+      question.blankOptions.forEach((option, index) => {
+        this.availableLetters[option.position] = [...option.options];
+      });
+    }
     this.showResult = false;
     this.isCorrect = false;
+  }
+
+  generateIncorrectLetters(correctLetter: string, count: number): string[] {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const incorrect: string[] = [];
+    const used = new Set([correctLetter]);
+
+    while (incorrect.length < count) {
+      const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+      if (!used.has(randomLetter)) {
+        incorrect.push(randomLetter);
+        used.add(randomLetter);
+      }
+    }
+
+    return incorrect;
   }
 
   shuffleArray<T>(array: T[]): void {
@@ -108,17 +155,53 @@ export class FillBlankComponent implements OnInit {
     }
   }
 
-  checkAnswer(): void {
+  selectLetter(letter: string, position: number, optionIndex: number): void {
     if (this.showResult) return;
 
-    const currentQuestion = this.questions[this.currentQuestionIndex];
-    const userAnswerUpper = this.userAnswer.toUpperCase().trim();
+    const question = this.getCurrentQuestion();
+    if (!question) return;
 
-    this.isCorrect = userAnswerUpper === currentQuestion.correctAnswer;
-    this.showResult = true;
+    // Find the index in blankIndices for this position
+    const blankIndex = question.blankIndices.indexOf(position);
+    if (blankIndex === -1) return;
 
-    if (this.isCorrect) {
+    // Set the selected letter for this blank (allow replacing)
+    this.userAnswer[blankIndex] = letter;
+
+    // Auto-check if all blanks are filled and all are correct
+    this.checkIfAllCorrect();
+  }
+
+  checkIfAllCorrect(): void {
+    const question = this.getCurrentQuestion();
+    if (!question) return;
+
+    // Check if all blanks are filled
+    if (this.userAnswer.some(letter => !letter)) {
+      return; // Not all blanks filled yet
+    }
+
+    // Check if all selected letters are correct
+    const allCorrect = question.blankIndices.every((position, index) => {
+      const selectedLetter = this.userAnswer[index];
+      const correctLetter = question.blankOptions.find(opt => opt.position === position)?.correctLetter;
+      return selectedLetter === correctLetter;
+    });
+
+    if (allCorrect) {
+      // All blanks are filled correctly, automatically show result
+      this.isCorrect = true;
+      this.showResult = true;
       this.score++;
+      this.checkGameCompletion();
+    }
+  }
+
+
+  checkGameCompletion(): void {
+    // Check if game is completed (all questions answered)
+    if (this.score === this.questions.length && this.questions.length > 0) {
+      // Game will be marked complete when moving to next question
     }
   }
 
@@ -165,9 +248,36 @@ export class FillBlankComponent implements OnInit {
     return message;
   }
 
-  canCheckAnswer(): boolean {
-    return this.userAnswer.trim().length > 0;
+
+  getSelectedLetterForPosition(position: number): string {
+    const question = this.getCurrentQuestion();
+    if (!question) return '';
+    const blankIndex = question.blankIndices.indexOf(position);
+    return blankIndex !== -1 ? this.userAnswer[blankIndex] : '';
   }
+
+  isPositionFilled(position: number): boolean {
+    return this.getSelectedLetterForPosition(position).length > 0;
+  }
+
+  isLetterCorrect(position: number): boolean {
+    const question = this.getCurrentQuestion();
+    if (!question) return false;
+    const selectedLetter = this.getSelectedLetterForPosition(position);
+    if (!selectedLetter) return false;
+    const correctLetter = question.blankOptions.find(opt => opt.position === position)?.correctLetter;
+    return selectedLetter === correctLetter;
+  }
+
+  isLetterIncorrect(position: number): boolean {
+    const question = this.getCurrentQuestion();
+    if (!question) return false;
+    const selectedLetter = this.getSelectedLetterForPosition(position);
+    if (!selectedLetter) return false;
+    const correctLetter = question.blankOptions.find(opt => opt.position === position)?.correctLetter;
+    return selectedLetter !== correctLetter;
+  }
+
 
   goBack(): void {
     // Navigate back to game selection for the current set

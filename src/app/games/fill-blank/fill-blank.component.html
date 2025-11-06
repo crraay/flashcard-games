@@ -31,46 +31,43 @@
       <div class="pattern-display">
         <span
           *ngFor="let char of getCurrentQuestion()!.blankPattern.split(''); let i = index"
-          [class]="'pattern-char ' + (char === '_' ? 'blank' : 'letter')">
-          {{ char }}
+          class="pattern-char"
+          [class.letter]="char !== '_'"
+          [class.blank]="char === '_'">
+          <span *ngIf="char !== '_'">{{ char }}</span>
+          <span 
+            *ngIf="char === '_'" 
+            class="blank-slot"
+            [class.incorrect]="isLetterIncorrect(i)"
+            [class.correct]="isLetterCorrect(i)">
+            {{ getSelectedLetterForPosition(i) || '_' }}
+          </span>
         </span>
       </div>
     </div>
 
-    <div class="answer-input-area">
-      <label for="userAnswer">Type your answer:</label>
-      <input
-        id="userAnswer"
-        type="text"
-        [(ngModel)]="userAnswer"
-        (keyup.enter)="checkAnswer()"
-        [disabled]="showResult"
-        placeholder="Enter the word"
-        class="answer-input"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false">
-    </div>
-
-    <div class="actions">
-      <button
-        class="check-button"
-        [class.disabled]="!canCheckAnswer() || showResult"
-        (click)="checkAnswer()"
-        type="button">
-        Check Answer
-      </button>
-    </div>
-
-    <div *ngIf="showResult" class="result-message">
-      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
-        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
-        <p *ngIf="!isCorrect">
-          ❌ Not quite. The correct answer is: <strong>{{ getCurrentQuestion()!.correctAnswer }}</strong>
-        </p>
+    <div class="letter-options-area">
+      <div
+        *ngFor="let option of getCurrentQuestion()!.blankOptions; let blankIndex = index"
+        class="blank-options-group">
+        <div class="options-label">Choose letter for position {{ blankIndex + 1 }}:</div>
+        <div class="options-grid">
+          <button
+            *ngFor="let letter of availableLetters[option.position]; let optionIndex = index"
+            class="letter-option-button"
+            [class.selected]="getSelectedLetterForPosition(option.position) === letter"
+            [class.disabled]="showResult"
+            (click)="selectLetter(letter, option.position, optionIndex)"
+            type="button">
+            {{ letter }}
+          </button>
+        </div>
       </div>
-      <button class="next-button" (click)="nextQuestion()" type="button">
-        {{ currentQuestionIndex + 1 < questions.length ? 'Next Word' : 'Finish Game' }}
+    </div>
+
+    <div *ngIf="showResult && isCorrect" class="actions">
+      <button class="continue-button" (click)="nextQuestion()" type="button">
+        {{ currentQuestionIndex + 1 < questions.length ? 'Continue' : 'Finish Game' }}
       </button>
     </div>
   </div>
