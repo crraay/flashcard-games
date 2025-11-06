@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FlashcardSet, Flashcard } from '../../models/flashcard.model';
 import { FlashcardService } from '../../services/flashcard.service';
 import { CommonModule } from '@angular/common';
@@ -9,10 +9,6 @@ interface Connection {
   flashcardId: string;
   captionId: string;
   isCorrect: boolean;
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
 }
 
 @Component({
@@ -22,26 +18,20 @@ interface Connection {
   templateUrl: './matching-game.component.html',
   styleUrl: './matching-game.component.scss'
 })
-export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MatchingGameComponent implements OnInit {
   selectedSet: FlashcardSet | null = null;
-  @ViewChild('gameContainer', { static: false }) gameContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('svgOverlay', { static: false }) svgOverlay!: ElementRef<SVGElement>;
 
   flashcards: Flashcard[] = [];
   shuffledCaptions: Flashcard[] = [];
   selectedImageId: string | null = null;
   selectedCaptionId: string | null = null;
   connections: Connection[] = [];
-  tempLineEnd: { x: number; y: number } | null = null;
   gameCompleted: boolean = false;
   correctMatches: number = 0;
   totalMoves: number = 0;
-  private mouseMoveHandler: ((event: MouseEvent) => void) | null = null;
-  private resizeHandler: (() => void) | null = null;
 
   constructor(
     private flashcardService: FlashcardService,
-    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -53,8 +43,9 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedSet = allSets.find(s => s.id === setId) || null;
 
       if (this.selectedSet) {
-        this.flashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
-        this.shuffledCaptions = this.shuffleArray([...this.flashcards]);
+        const flashcardsFromSet = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
+        this.flashcards = this.shuffleArray([...flashcardsFromSet]);
+        this.shuffledCaptions = this.shuffleArray([...flashcardsFromSet]);
       } else {
         // Invalid set ID, redirect to game selector
         this.router.navigate(['/']);
@@ -65,74 +56,6 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.gameContainer) {
-      this.mouseMoveHandler = (event: MouseEvent) => {
-        this.onMouseMove(event);
-        this.cdr.detectChanges();
-      };
-      this.gameContainer.nativeElement.addEventListener('mousemove', this.mouseMoveHandler);
-
-      this.resizeHandler = () => {
-        this.updateSvgSize();
-        this.recalculateConnections();
-      };
-      window.addEventListener('resize', this.resizeHandler);
-
-      // Use setTimeout to ensure DOM is fully rendered
-      setTimeout(() => {
-        this.updateSvgSize();
-      }, 0);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.gameContainer && this.mouseMoveHandler) {
-      this.gameContainer.nativeElement.removeEventListener('mousemove', this.mouseMoveHandler);
-    }
-    if (this.resizeHandler) {
-      window.removeEventListener('resize', this.resizeHandler);
-    }
-  }
-
-  private updateSvgSize(): void {
-    if (this.svgOverlay && this.gameContainer) {
-      const container = this.gameContainer.nativeElement;
-      const svg = this.svgOverlay.nativeElement;
-      const width = container.offsetWidth || container.clientWidth;
-      const height = container.offsetHeight || container.clientHeight;
-      svg.setAttribute('width', width.toString());
-      svg.setAttribute('height', height.toString());
-      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    }
-  }
-
-  private recalculateConnections(): void {
-    // Recalculate all connection coordinates
-    const recalculatedConnections: Connection[] = [];
-    this.connections.forEach(conn => {
-      const imageElement = document.getElementById(`image-${conn.flashcardId}`);
-      const captionElement = document.getElementById(`caption-${conn.captionId}`);
-
-      if (imageElement && captionElement) {
-        const containerRect = this.gameContainer.nativeElement.getBoundingClientRect();
-        const imageRect = imageElement.getBoundingClientRect();
-        const captionRect = captionElement.getBoundingClientRect();
-
-        recalculatedConnections.push({
-          flashcardId: conn.flashcardId,
-          captionId: conn.captionId,
-          isCorrect: conn.isCorrect,
-          x1: imageRect.left + imageRect.width / 2 - containerRect.left,
-          y1: imageRect.top + imageRect.height / 2 - containerRect.top,
-          x2: captionRect.left + captionRect.width / 2 - containerRect.left,
-          y2: captionRect.top + captionRect.height / 2 - containerRect.top
-        });
-      }
-    });
-    this.connections = recalculatedConnections;
-    this.cdr.detectChanges();
-  }
 
   shuffleArray<T>(array: T[]): T[] {
     const shuffled = [...array];
@@ -143,58 +66,54 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
     return shuffled;
   }
 
-  onMouseMove(event: MouseEvent): void {
-    if (this.selectedImageId && !this.selectedCaptionId) {
-      const rect = this.gameContainer.nativeElement.getBoundingClientRect();
-      this.tempLineEnd = {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      };
-    }
-  }
 
   onImageClick(flashcard: Flashcard): void {
-    // If clicking on an already connected image, remove the connection
-    const existingConnection = this.connections.find(c => c.flashcardId === flashcard.id);
-    if (existingConnection) {
-      this.removeConnection(flashcard.id);
+    // Don't allow interaction with correctly matched images
+    if (this.isImageMatched(flashcard.id)) {
+      return;
+    }
+
+    // If a caption is already selected, create connection
+    if (this.selectedCaptionId && !this.selectedImageId) {
+      this.selectedImageId = flashcard.id;
+      this.createConnection(flashcard.id, this.selectedCaptionId);
       this.selectedImageId = null;
       this.selectedCaptionId = null;
-      this.tempLineEnd = null;
       return;
     }
 
     if (this.selectedImageId === flashcard.id) {
       // Deselect if clicking the same image
       this.selectedImageId = null;
-      this.tempLineEnd = null;
     } else {
       this.selectedImageId = flashcard.id;
       this.selectedCaptionId = null;
-      // Reset temp line end to center of selected image
-      const element = document.getElementById(`image-${flashcard.id}`);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        const containerRect = this.gameContainer.nativeElement.getBoundingClientRect();
-        this.tempLineEnd = {
-          x: rect.left + rect.width / 2 - containerRect.left,
-          y: rect.top + rect.height / 2 - containerRect.top
-        };
-      }
     }
   }
 
   onCaptionClick(flashcard: Flashcard): void {
-    if (!this.selectedImageId) {
+    // Don't allow interaction with correctly matched captions
+    if (this.isCaptionMatched(flashcard.id)) {
       return;
     }
 
-    // Create connection
-    this.selectedCaptionId = flashcard.id;
-    this.createConnection(this.selectedImageId, flashcard.id);
-    this.selectedImageId = null;
-    this.selectedCaptionId = null;
-    this.tempLineEnd = null;
+    // If an image is already selected, create connection
+    if (this.selectedImageId && !this.selectedCaptionId) {
+      this.selectedCaptionId = flashcard.id;
+      this.createConnection(this.selectedImageId, flashcard.id);
+      this.selectedImageId = null;
+      this.selectedCaptionId = null;
+      return;
+    }
+
+    // If clicking the same caption, deselect it
+    if (this.selectedCaptionId === flashcard.id) {
+      this.selectedCaptionId = null;
+    } else {
+      // Select caption first (word first, then image)
+      this.selectedCaptionId = flashcard.id;
+      this.selectedImageId = null;
+    }
   }
 
   createConnection(flashcardId: string, captionId: string): void {
@@ -202,33 +121,27 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.removeConnection(flashcardId);
     this.connections = this.connections.filter(c => c.captionId !== captionId);
 
-    const imageElement = document.getElementById(`image-${flashcardId}`);
-    const captionElement = document.getElementById(`caption-${captionId}`);
+    // A match is correct if the flashcard ID matches the caption ID (same flashcard)
+    const isCorrect = flashcardId === captionId;
 
-    if (imageElement && captionElement) {
-      const containerRect = this.gameContainer.nativeElement.getBoundingClientRect();
-      const imageRect = imageElement.getBoundingClientRect();
-      const captionRect = captionElement.getBoundingClientRect();
+    const connection: Connection = {
+      flashcardId,
+      captionId,
+      isCorrect
+    };
 
-      // A match is correct if the flashcard ID matches the caption ID (same flashcard)
-      const isCorrect = flashcardId === captionId;
+    this.connections.push(connection);
+    this.totalMoves++;
 
-      const connection: Connection = {
-        flashcardId,
-        captionId,
-        isCorrect,
-        x1: imageRect.left + imageRect.width / 2 - containerRect.left,
-        y1: imageRect.top + imageRect.height / 2 - containerRect.top,
-        x2: captionRect.left + captionRect.width / 2 - containerRect.left,
-        y2: captionRect.top + captionRect.height / 2 - containerRect.top
-      };
-
-      this.connections.push(connection);
-      this.totalMoves++;
-
-      // Check if game is completed (all flashcards have correct connections)
-      this.checkGameCompletion();
+    // If incorrect, remove the connection after a short delay
+    if (!isCorrect) {
+      setTimeout(() => {
+        this.removeConnection(flashcardId);
+      }, 1000);
     }
+
+    // Check if game is completed (all flashcards have correct connections)
+    this.checkGameCompletion();
   }
 
   checkGameCompletion(): void {
@@ -245,39 +158,19 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.connections = [];
     this.selectedImageId = null;
     this.selectedCaptionId = null;
-    this.tempLineEnd = null;
     this.gameCompleted = false;
     this.correctMatches = 0;
     this.totalMoves = 0;
-    this.shuffledCaptions = this.shuffleArray([...this.flashcards]);
-
-    // Recalculate connections after a short delay to ensure DOM is ready
-    setTimeout(() => {
-      this.updateSvgSize();
-    }, 0);
+    // Reshuffle both images and captions
+    const allFlashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet!.id);
+    this.flashcards = this.shuffleArray([...allFlashcards]);
+    this.shuffledCaptions = this.shuffleArray([...allFlashcards]);
   }
 
   removeConnection(flashcardId: string): void {
     this.connections = this.connections.filter(c => c.flashcardId !== flashcardId);
     // Recheck completion status after removing a connection
     this.checkGameCompletion();
-  }
-
-  getLineCoordinates(flashcardId: string): { x1: number; y1: number; x2: number; y2: number } | null {
-    if (this.selectedImageId === flashcardId && this.tempLineEnd) {
-      const imageElement = document.getElementById(`image-${flashcardId}`);
-      if (imageElement) {
-        const containerRect = this.gameContainer.nativeElement.getBoundingClientRect();
-        const imageRect = imageElement.getBoundingClientRect();
-        return {
-          x1: imageRect.left + imageRect.width / 2 - containerRect.left,
-          y1: imageRect.top + imageRect.height / 2 - containerRect.top,
-          x2: this.tempLineEnd.x,
-          y2: this.tempLineEnd.y
-        };
-      }
-    }
-    return null;
   }
 
   isImageSelected(flashcardId: string): boolean {
@@ -294,6 +187,16 @@ export class MatchingGameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isCaptionConnected(captionId: string): boolean {
     return this.connections.some(c => c.captionId === captionId);
+  }
+
+  isImageMatched(flashcardId: string): boolean {
+    const connection = this.connections.find(c => c.flashcardId === flashcardId);
+    return connection ? connection.isCorrect : false;
+  }
+
+  isCaptionMatched(captionId: string): boolean {
+    const connection = this.connections.find(c => c.captionId === captionId);
+    return connection ? connection.isCorrect : false;
   }
 
   isImageIncorrect(flashcardId: string): boolean {
