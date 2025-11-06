@@ -10,6 +10,11 @@
       [class]="'game-card game-' + game.id"
       type="button">
       <h2>{{ game.name }}</h2>
+      <img
+        *ngIf="game.imagePath"
+        [src]="game.imagePath"
+        [alt]="game.name"
+        class="game-image">
       <p>{{ game.description }}</p>
     </button>
   </div>
