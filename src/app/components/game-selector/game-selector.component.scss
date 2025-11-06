@@ -119,6 +119,11 @@
   background: linear-gradient(135deg, #3949ab 0%, #1a237e 100%);
 }
 
+// Word Choice - Pink/Magenta gradient (darker, more vibrant)
+.game-word-choice {
+  background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%);
+}
+
 @media (max-width: 768px) {
   .game-selector-container {
     padding: 1rem;

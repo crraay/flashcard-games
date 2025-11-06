@@ -52,6 +52,11 @@ export class GameSelectorComponent implements OnInit {
       id: 'word-search',
       name: 'Word Search',
       description: 'Find hidden words in a letter grid'
+    },
+    {
+      id: 'word-choice',
+      name: 'Word Choice',
+      description: 'Select the image that matches the word'
     }
   ];
 

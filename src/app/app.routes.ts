@@ -8,6 +8,7 @@ import { WordScrambleComponent } from './games/word-scramble/word-scramble.compo
 import { FillBlankComponent } from './games/fill-blank/fill-blank.component';
 import { TrueFalseComponent } from './games/true-false/true-false.component';
 import { WordSearchComponent } from './games/word-search/word-search.component';
+import { WordChoiceComponent } from './games/word-choice/word-choice.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,10 @@ export const routes: Routes = [
   {
     path: 'games/word-search/:setId',
     component: WordSearchComponent
+  },
+  {
+    path: 'games/word-choice/:setId',
+    component: WordChoiceComponent
   },
   {
     path: '**',

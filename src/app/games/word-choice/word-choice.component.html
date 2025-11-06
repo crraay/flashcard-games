@@ -1,0 +1,54 @@
+<div class="word-choice-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Game Selection
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Question {{ currentQuestionIndex + 1 }}/{{ questions.length }}</span>
+      <span class="stat">Score: {{ score }}/{{ questions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete && getCurrentQuestion()" class="game-content">
+    <div class="word-display">
+      <h3 class="word-label">Which image matches this word?</h3>
+      <div class="word-text">{{ getCurrentQuestion()!.word }}</div>
+    </div>
+
+    <div class="flashcards-grid">
+      <div
+        *ngFor="let flashcard of getCurrentQuestion()?.flashcards || []"
+        class="flashcard-option"
+        [class.selected]="isSelected(flashcard.id)"
+        [class.correct]="showResult && isCorrectAnswer(flashcard.id)"
+        [class.incorrect]="showResult && isSelected(flashcard.id) && !isCorrectAnswer(flashcard.id)"
+        [class.disabled]="showResult"
+        (click)="selectFlashcard(flashcard.id)">
+        <img [src]="flashcard.imageUrl" [alt]="flashcard.caption" />
+        <span *ngIf="showResult && isCorrectAnswer(flashcard.id)" class="result-icon">✓</span>
+        <span *ngIf="showResult && isSelected(flashcard.id) && !isCorrectAnswer(flashcard.id)" class="result-icon">✗</span>
+      </div>
+    </div>
+
+    <div *ngIf="showResult" class="result-message">
+      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
+        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
+        <p *ngIf="!isCorrect">
+          ❌ Wrong. The correct answer is: <strong>{{ getCurrentQuestion()!.correctFlashcard.caption }}</strong>
+        </p>
+      </div>
+      <button class="next-button" (click)="nextQuestion()" type="button">
+        {{ currentQuestionIndex + 1 < questions.length ? 'Next Question' : 'Finish Game' }}
+      </button>
+    </div>
+  </div>
+</div>
