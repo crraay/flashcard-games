@@ -65,6 +65,17 @@ export class FlashcardService {
     { id: '45', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSXP3FVr-YQNSXMnXo8X2DiI2SE_61t6j8z8WG7EMnWsJ5x2jRG2p6wTtZb1qD2S-_wdg&usqp=CAU', caption: 'Step' },
     { id: '46', imageUrl: 'https://thumbs.dreamstime.com/b/footprints-circle-paint-print-30525995.jpg', caption: 'Loop' },
     { id: '47', imageUrl: 'https://c8.alamy.com/comp/2WX4T3E/a-vector-showing-multicoloured-human-footprints-in-a-line-symbolic-of-the-way-forward-in-life-2WX4T3E.jpg', caption: 'Sequence' },
+    // Consonant pattern NG
+    { id: '48', imageUrl: 'https://img.freepik.com/premium-vector/springs-vibrant-charm-blossoms-delightful-tapestry-flowers-against-pristine-white-canvas_1201528-2867.jpg?semt=ais_hybrid&w=740&q=80', caption: 'Spring' },
+    { id: '49', imageUrl: 'https://t3.ftcdn.net/jpg/09/38/74/26/360_F_938742621_7VaKGUxoUqFOlSc48O8hXxJoFx6D5Xmu.jpg', caption: 'King' },
+    { id: '50', imageUrl: 'https://c8.alamy.com/comp/2G7250N/cartoon-courier-brings-the-parcel-the-customer-receives-the-parcel-vector-illustration-colored-and-black-outlines-2G7250N.jpg', caption: 'Bring' },
+    { id: '51', imageUrl: 'https://t3.ftcdn.net/jpg/02/79/95/98/360_F_279959867_EufPXDNyxENxhDxAah2qC6GtPffQ4IV9.jpg', caption: 'Song' },
+    // Consonant pattern NK
+    { id: '52', imageUrl: 'https://img.freepik.com/premium-vector/cute-mink-vector-cartoon-illustration-white-background_1025757-25149.jpg', caption: 'Mink' },
+    { id: '53', imageUrl: 'https://img.freepik.com/premium-vector/bank-building-building-landmark-icon-illustration-vector_679085-55.jpg?semt=ais_hybrid&w=740&q=80', caption: 'Bank' },
+    // blank
+    { id: '54', imageUrl: 'https://freedesignfile.com/upload/2016/12/Cartoon-school-children-with-blank-paper-vector-05.jpg', caption: 'Blank' },
+    { id: '55', imageUrl: 'https://t3.ftcdn.net/jpg/02/18/49/36/360_F_218493638_nqbOnsvqeTQ9ba94leZ90zksyoXLWuDA.jpg', caption: 'Wink' },
   ];
 
   private flashcardSets: FlashcardSet[] = [
@@ -109,6 +120,18 @@ export class FlashcardService {
       name: 'Commands',
       description: 'Commands related vocabulary',
       flashcardIds: ['41', '42', '43', '44', '45', '46', '47']
+    },
+    {
+      id: 'set9',
+      name: 'Consonant pattern: NG',
+      description: 'Words with NG consonant pattern',
+      flashcardIds: ['48', '49', '50', '51']
+    },
+    {
+      id: 'set10',
+      name: 'Consonant pattern: NK',
+      description: 'Words with NK consonant pattern',
+      flashcardIds: ['52', '53', '54', '55']
     },
     // always keep this last
     // always add all flashcards to this set
