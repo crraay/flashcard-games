@@ -1,7 +1,7 @@
 <div class="matching-game-container" #gameContainer>
-  <button class="back-button" (click)="goBack()" type="button">
-    ← Back
-  </button>
+        <button class="back-button" (click)="goBack()" type="button">
+        ← Back to Game Selection
+      </button>
   <h2 class="game-title">{{ selectedSet?.name || 'Loading...' }}</h2>
 
   <fg-game-completion
@@ -21,7 +21,9 @@
           class="image-card"
           [class.selected]="isImageSelected(flashcard.id)"
           [class.connected]="isImageConnected(flashcard.id)"
+          [class.matched]="isImageMatched(flashcard.id)"
           [class.incorrect]="isImageIncorrect(flashcard.id)"
+          [class.inactive]="isImageMatched(flashcard.id)"
           (click)="onImageClick(flashcard)"
           [id]="'image-' + flashcard.id">
           <img [src]="flashcard.imageUrl" [alt]="flashcard.caption" />
@@ -38,7 +40,10 @@
           class="caption-card"
           [class.selected]="isCaptionSelected(flashcard.id)"
           [class.connected]="isCaptionConnected(flashcard.id)"
+          [class.matched]="isCaptionMatched(flashcard.id)"
           [class.incorrect]="isCaptionIncorrect(flashcard.id)"
+          [class.inactive]="isCaptionMatched(flashcard.id)"
+          [disabled]="isCaptionMatched(flashcard.id)"
           (click)="onCaptionClick(flashcard)"
           [id]="'caption-' + flashcard.id"
           type="button">
@@ -48,29 +53,4 @@
     </div>
   </div>
 
-  <!-- SVG overlay for drawing lines -->
-  <svg *ngIf="!gameCompleted" class="lines-overlay" #svgOverlay>
-    <!-- Draw existing connections -->
-    <line
-      *ngFor="let connection of connections"
-      [attr.x1]="connection.x1"
-      [attr.y1]="connection.y1"
-      [attr.x2]="connection.x2"
-      [attr.y2]="connection.y2"
-      [class.connection-line-correct]="connection.isCorrect"
-      [class.connection-line-incorrect]="!connection.isCorrect"
-      class="connection-line"
-      (click)="removeConnection(connection.flashcardId)" />
-
-    <!-- Draw temporary line while dragging -->
-    <ng-container *ngFor="let flashcard of flashcards">
-      <line
-        *ngIf="getLineCoordinates(flashcard.id)"
-        [attr.x1]="getLineCoordinates(flashcard.id)!.x1"
-        [attr.y1]="getLineCoordinates(flashcard.id)!.y1"
-        [attr.x2]="getLineCoordinates(flashcard.id)!.x2"
-        [attr.y2]="getLineCoordinates(flashcard.id)!.y2"
-        class="temp-line" />
-    </ng-container>
-  </svg>
 </div>

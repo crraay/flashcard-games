@@ -1,0 +1,82 @@
+<div class="word-scramble-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Game Selection
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Word {{ currentQuestionIndex + 1 }}/{{ questions.length }}</span>
+      <span class="stat">Score: {{ score }}/{{ questions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete && getCurrentQuestion()" class="game-content">
+    <div class="word-image">
+      <img [src]="getCurrentQuestion()!.flashcard.imageUrl" [alt]="getCurrentQuestion()!.flashcard.caption" />
+    </div>
+
+    <div class="instructions">
+      <h3>Unscramble the letters to spell the word!</h3>
+    </div>
+
+    <div class="answer-area">
+      <div class="answer-label">Your Answer:</div>
+      <div class="answer-letters">
+        <button
+          *ngFor="let letter of userAnswer; let i = index"
+          class="answer-letter"
+          (click)="removeLetter(letter, i)"
+          [class.disabled]="showResult"
+          type="button">
+          {{ letter }}
+        </button>
+        <span *ngIf="userAnswer.length === 0" class="answer-placeholder">Click letters below to build your answer</span>
+      </div>
+    </div>
+
+    <div class="available-letters" *ngIf="availableLetters.length > 0">
+      <div class="letters-label">Available Letters:</div>
+      <div class="letters-grid">
+        <button
+          *ngFor="let letter of availableLetters; let i = index"
+          class="letter-button"
+          (click)="selectLetter(letter, i)"
+          [class.disabled]="showResult"
+          type="button">
+          {{ letter }}
+        </button>
+      </div>
+    </div>
+
+    <div class="actions" *ngIf="!showResult">
+      <button
+        class="check-button"
+        [class.disabled]="!canCheckAnswer()"
+        (click)="checkAnswer()"
+        type="button">
+        Check Answer
+      </button>
+    </div>
+
+    <div *ngIf="showResult" class="result-message">
+      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
+        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
+        <p *ngIf="!isCorrect">
+          ❌ Not quite. The correct answer is: <strong>{{ getCurrentQuestion()!.correctAnswer }}</strong>
+        </p>
+      </div>
+      <button class="next-button" (click)="nextQuestion()" type="button">
+        {{ currentQuestionIndex + 1 < questions.length ? 'Next Word' : 'Finish Game' }}
+      </button>
+    </div>
+  </div>
+</div>
+

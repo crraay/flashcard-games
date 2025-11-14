@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SetSelectorComponent } from './set-selector.component';
+import { FillBlankComponent } from './fill-blank.component';
 
-describe('SetSelectorComponent', () => {
-  let component: SetSelectorComponent;
-  let fixture: ComponentFixture<SetSelectorComponent>;
+describe('FillBlankComponent', () => {
+  let component: FillBlankComponent;
+  let fixture: ComponentFixture<FillBlankComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SetSelectorComponent]
+      imports: [FillBlankComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SetSelectorComponent);
+    fixture = TestBed.createComponent(FillBlankComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,3 +21,4 @@ describe('SetSelectorComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

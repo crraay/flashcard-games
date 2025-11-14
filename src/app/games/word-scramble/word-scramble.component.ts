@@ -5,33 +5,29 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameCompletionComponent } from '../../components/game-completion/game-completion.component';
 
-interface QuizOption {
-  caption: string;
-  isCorrect: boolean;
-}
-
-interface QuizQuestion {
+interface ScrambleQuestion {
   flashcard: Flashcard;
-  options: QuizOption[];
+  scrambledLetters: string[];
+  correctAnswer: string;
 }
 
 @Component({
-  selector: 'fg-quiz-game',
+  selector: 'fg-word-scramble',
   standalone: true,
   imports: [CommonModule, GameCompletionComponent],
-  templateUrl: './quiz-game.component.html',
-  styleUrl: './quiz-game.component.scss'
+  templateUrl: './word-scramble.component.html',
+  styleUrl: './word-scramble.component.scss'
 })
-export class QuizGameComponent implements OnInit {
+export class WordScrambleComponent implements OnInit {
   selectedSet: FlashcardSet | null = null;
-  questions: QuizQuestion[] = [];
+  questions: ScrambleQuestion[] = [];
   currentQuestionIndex: number = 0;
   score: number = 0;
-  selectedAnswer: string | null = null;
+  userAnswer: string[] = [];
+  availableLetters: string[] = [];
+  gameComplete: boolean = false;
   showResult: boolean = false;
   isCorrect: boolean = false;
-  quizComplete: boolean = false;
-  allFlashcards: Flashcard[] = [];
 
   constructor(
     private flashcardService: FlashcardService,
@@ -46,7 +42,7 @@ export class QuizGameComponent implements OnInit {
       this.selectedSet = allSets.find(s => s.id === setId) || null;
 
       if (this.selectedSet) {
-        this.initializeQuiz();
+        this.initializeGame();
       } else {
         this.router.navigate(['/']);
       }
@@ -55,46 +51,41 @@ export class QuizGameComponent implements OnInit {
     }
   }
 
-  initializeQuiz(): void {
+  initializeGame(): void {
     if (!this.selectedSet) return;
 
     const flashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
-    this.allFlashcards = this.flashcardService.getAllFlashcards();
 
-    // Shuffle flashcards for random question order
+    // Shuffle flashcards for random order
     this.shuffleArray(flashcards);
 
     this.questions = flashcards.map(flashcard => {
-      // Create 4 options: 1 correct + 3 incorrect
-      const options: QuizOption[] = [
-        { caption: flashcard.caption, isCorrect: true }
-      ];
-
-      // Get incorrect options from other flashcards
-      const incorrectOptions = this.allFlashcards
-        .filter(f => f.id !== flashcard.id)
-        .map(f => f.caption);
-
-      this.shuffleArray(incorrectOptions);
-
-      // Add 3 incorrect options
-      for (let i = 0; i < 3 && i < incorrectOptions.length; i++) {
-        options.push({ caption: incorrectOptions[i], isCorrect: false });
-      }
-
-      // Shuffle the options so correct answer isn't always first
-      this.shuffleArray(options);
+      const word = flashcard.caption.toUpperCase();
+      const letters = word.split('');
+      const scrambled = [...letters];
+      this.shuffleArray(scrambled);
 
       return {
         flashcard,
-        options
+        scrambledLetters: scrambled,
+        correctAnswer: word
       };
     });
 
     this.currentQuestionIndex = 0;
     this.score = 0;
-    this.quizComplete = false;
-    this.showResult = false;
+    this.gameComplete = false;
+    this.resetCurrentQuestion();
+  }
+
+  resetCurrentQuestion(): void {
+    if (this.currentQuestionIndex < this.questions.length) {
+      const question = this.questions[this.currentQuestionIndex];
+      this.availableLetters = [...question.scrambledLetters];
+      this.userAnswer = [];
+      this.showResult = false;
+      this.isCorrect = false;
+    }
   }
 
   shuffleArray<T>(array: T[]): void {
@@ -104,33 +95,51 @@ export class QuizGameComponent implements OnInit {
     }
   }
 
-  selectAnswer(option: QuizOption): void {
-    if (this.showResult) return; // Prevent clicking after answer is revealed
+  selectLetter(letter: string, index: number): void {
+    if (this.showResult) return;
 
-    this.selectedAnswer = option.caption;
-    this.isCorrect = option.isCorrect;
+    // Move letter from available to user answer
+    this.availableLetters.splice(index, 1);
+    this.userAnswer.push(letter);
+  }
+
+  removeLetter(letter: string, index: number): void {
+    if (this.showResult) return;
+
+    // Move letter back from user answer to available
+    this.userAnswer.splice(index, 1);
+    this.availableLetters.push(letter);
+  }
+
+  checkAnswer(): void {
+    if (this.showResult) return;
+
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    const userWord = this.userAnswer.join('');
+
+    this.isCorrect = userWord === currentQuestion.correctAnswer;
     this.showResult = true;
 
-    if (option.isCorrect) {
+    if (this.isCorrect) {
       this.score++;
     }
   }
 
   nextQuestion(): void {
-    this.selectedAnswer = null;
-    this.showResult = false;
     this.currentQuestionIndex++;
 
     if (this.currentQuestionIndex >= this.questions.length) {
-      this.quizComplete = true;
+      this.gameComplete = true;
+    } else {
+      this.resetCurrentQuestion();
     }
   }
 
-  restartQuiz(): void {
-    this.initializeQuiz();
+  restartGame(): void {
+    this.initializeGame();
   }
 
-  getCurrentQuestion(): QuizQuestion | null {
+  getCurrentQuestion(): ScrambleQuestion | null {
     if (this.currentQuestionIndex < this.questions.length) {
       return this.questions[this.currentQuestionIndex];
     }
@@ -159,6 +168,10 @@ export class QuizGameComponent implements OnInit {
     return message;
   }
 
+  canCheckAnswer(): boolean {
+    return this.userAnswer.length === this.questions[this.currentQuestionIndex]?.correctAnswer.length;
+  }
+
   goBack(): void {
     // Navigate back to game selection for the current set
     const setId = this.route.snapshot.params['setId'];
@@ -169,3 +182,4 @@ export class QuizGameComponent implements OnInit {
     }
   }
 }
+

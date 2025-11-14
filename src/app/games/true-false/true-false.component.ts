@@ -5,32 +5,28 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameCompletionComponent } from '../../components/game-completion/game-completion.component';
 
-interface QuizOption {
-  caption: string;
-  isCorrect: boolean;
-}
-
-interface QuizQuestion {
+interface TrueFalseQuestion {
   flashcard: Flashcard;
-  options: QuizOption[];
+  statement: string;
+  isCorrect: boolean; // true if statement is correct, false if incorrect
 }
 
 @Component({
-  selector: 'fg-quiz-game',
+  selector: 'fg-true-false',
   standalone: true,
   imports: [CommonModule, GameCompletionComponent],
-  templateUrl: './quiz-game.component.html',
-  styleUrl: './quiz-game.component.scss'
+  templateUrl: './true-false.component.html',
+  styleUrl: './true-false.component.scss'
 })
-export class QuizGameComponent implements OnInit {
+export class TrueFalseComponent implements OnInit {
   selectedSet: FlashcardSet | null = null;
-  questions: QuizQuestion[] = [];
+  questions: TrueFalseQuestion[] = [];
   currentQuestionIndex: number = 0;
   score: number = 0;
-  selectedAnswer: string | null = null;
+  selectedAnswer: boolean | null = null;
+  gameComplete: boolean = false;
   showResult: boolean = false;
   isCorrect: boolean = false;
-  quizComplete: boolean = false;
   allFlashcards: Flashcard[] = [];
 
   constructor(
@@ -46,7 +42,7 @@ export class QuizGameComponent implements OnInit {
       this.selectedSet = allSets.find(s => s.id === setId) || null;
 
       if (this.selectedSet) {
-        this.initializeQuiz();
+        this.initializeGame();
       } else {
         this.router.navigate(['/']);
       }
@@ -55,46 +51,52 @@ export class QuizGameComponent implements OnInit {
     }
   }
 
-  initializeQuiz(): void {
+  initializeGame(): void {
     if (!this.selectedSet) return;
 
     const flashcards = this.flashcardService.getFlashcardsBySetId(this.selectedSet.id);
     this.allFlashcards = this.flashcardService.getAllFlashcards();
 
-    // Shuffle flashcards for random question order
+    // Shuffle flashcards for random order
     this.shuffleArray(flashcards);
 
     this.questions = flashcards.map(flashcard => {
-      // Create 4 options: 1 correct + 3 incorrect
-      const options: QuizOption[] = [
-        { caption: flashcard.caption, isCorrect: true }
-      ];
+      // Generate a statement - either correct or incorrect
+      const isCorrect = Math.random() > 0.5;
+      let statement: string;
 
-      // Get incorrect options from other flashcards
-      const incorrectOptions = this.allFlashcards
-        .filter(f => f.id !== flashcard.id)
-        .map(f => f.caption);
-
-      this.shuffleArray(incorrectOptions);
-
-      // Add 3 incorrect options
-      for (let i = 0; i < 3 && i < incorrectOptions.length; i++) {
-        options.push({ caption: incorrectOptions[i], isCorrect: false });
+      if (isCorrect) {
+        // Correct statement - use the actual caption
+        statement = `This is a ${flashcard.caption}.`;
+      } else {
+        // Incorrect statement - use a different word from the set
+        const otherFlashcards = this.allFlashcards.filter(f => f.id !== flashcard.id);
+        if (otherFlashcards.length > 0) {
+          const randomOther = otherFlashcards[Math.floor(Math.random() * otherFlashcards.length)];
+          statement = `This is a ${randomOther.caption}.`;
+        } else {
+          // Fallback if no other flashcards
+          statement = `This is not a ${flashcard.caption}.`;
+        }
       }
-
-      // Shuffle the options so correct answer isn't always first
-      this.shuffleArray(options);
 
       return {
         flashcard,
-        options
+        statement,
+        isCorrect
       };
     });
 
     this.currentQuestionIndex = 0;
     this.score = 0;
-    this.quizComplete = false;
+    this.gameComplete = false;
+    this.resetCurrentQuestion();
+  }
+
+  resetCurrentQuestion(): void {
+    this.selectedAnswer = null;
     this.showResult = false;
+    this.isCorrect = false;
   }
 
   shuffleArray<T>(array: T[]): void {
@@ -104,33 +106,34 @@ export class QuizGameComponent implements OnInit {
     }
   }
 
-  selectAnswer(option: QuizOption): void {
-    if (this.showResult) return; // Prevent clicking after answer is revealed
+  selectAnswer(answer: boolean): void {
+    if (this.showResult) return;
 
-    this.selectedAnswer = option.caption;
-    this.isCorrect = option.isCorrect;
+    this.selectedAnswer = answer;
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    this.isCorrect = answer === currentQuestion.isCorrect;
     this.showResult = true;
 
-    if (option.isCorrect) {
+    if (this.isCorrect) {
       this.score++;
     }
   }
 
   nextQuestion(): void {
-    this.selectedAnswer = null;
-    this.showResult = false;
     this.currentQuestionIndex++;
 
     if (this.currentQuestionIndex >= this.questions.length) {
-      this.quizComplete = true;
+      this.gameComplete = true;
+    } else {
+      this.resetCurrentQuestion();
     }
   }
 
-  restartQuiz(): void {
-    this.initializeQuiz();
+  restartGame(): void {
+    this.initializeGame();
   }
 
-  getCurrentQuestion(): QuizQuestion | null {
+  getCurrentQuestion(): TrueFalseQuestion | null {
     if (this.currentQuestionIndex < this.questions.length) {
       return this.questions[this.currentQuestionIndex];
     }

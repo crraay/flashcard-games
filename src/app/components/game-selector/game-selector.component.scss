@@ -1,4 +1,5 @@
 .game-selector-container {
+  position: relative;
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -9,6 +10,33 @@
     font-size: 2.5rem;
     margin-bottom: 2rem;
     font-weight: bold;
+  }
+}
+
+.back-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -45,8 +73,19 @@
 
   h2 {
     font-size: 2rem;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 1rem 0;
     font-weight: bold;
+  }
+
+  .game-image {
+    max-width: 200px;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 20px;
+    overflow: hidden;
+    opacity: 0.95;
   }
 
   p {
@@ -56,19 +95,44 @@
   }
 }
 
-// Matching Game - Blue gradient
+// Matching Game - Blue gradient (darker, more vibrant)
 .game-matching {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
 }
 
-// Memory Game - Green gradient
+// Memory Game - Green gradient (darker, more vibrant)
 .game-memory {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
 }
 
-// Quiz Game - Orange gradient
+// Quiz Game - Orange/Red gradient (darker, more vibrant)
 .game-quiz {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #e64a19 0%, #bf360c 100%);
+}
+
+// Word Scramble - Purple gradient (darker, more vibrant)
+.game-word-scramble {
+  background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%);
+}
+
+// Fill in the Blank - Teal gradient (darker, more vibrant)
+.game-fill-blank {
+  background: linear-gradient(135deg, #00897b 0%, #004d40 100%);
+}
+
+// True or False - Orange gradient (darker, more vibrant)
+.game-true-false {
+  background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+}
+
+// Word Search - Indigo gradient (darker, more vibrant)
+.game-word-search {
+  background: linear-gradient(135deg, #3949ab 0%, #1a237e 100%);
+}
+
+// Word Choice - Pink/Magenta gradient (darker, more vibrant)
+.game-word-choice {
+  background: linear-gradient(135deg, #c2185b 0%, #880e4f 100%);
 }
 
 @media (max-width: 768px) {
@@ -88,5 +152,12 @@
   .game-card {
     padding: 1.5rem;
     min-height: 150px;
+  }
+
+  .back-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    top: 0.5rem;
+    left: 0.5rem;
   }
 }
