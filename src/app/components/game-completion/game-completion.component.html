@@ -1,6 +1,10 @@
 <div class="game-completion-overlay">
   <div class="game-completion-message">
     <h3>{{ title }}</h3>
+    <div *ngIf="prize" class="prize-container">
+      <img [src]="prize.imageUrl" [alt]="prize.caption" class="prize-image">
+      <p class="prize-caption">{{ prize.caption }}</p>
+    </div>
     <div *ngIf="message" class="message-content" [innerHTML]="getFormattedMessage()"></div>
     <button
       *ngIf="showRestart"

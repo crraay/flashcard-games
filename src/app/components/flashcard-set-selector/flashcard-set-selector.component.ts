@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FlashcardSet } from '../../models/flashcard.model';
+import { FlashcardSet } from '../../models';
 import { FlashcardService } from '../../services/flashcard.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';

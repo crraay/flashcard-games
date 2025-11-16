@@ -19,13 +19,37 @@
   border-radius: 20px;
   color: white;
   margin: 2rem;
-  max-width: 500px;
+  max-width: 650px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.3s ease;
 
   h3 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+  }
+
+  .prize-container {
+    margin: 1.5rem 0;
+    animation: prizeBounce 1s ease-in-out 0.8s both;
+  }
+
+  .prize-image {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    animation: prizeRotate 1s ease-in-out 1s;
+    background: white;
+    border-radius: 10px;
+    padding: 0.5rem;
+  }
+
+  .prize-caption {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .message-content {
@@ -77,6 +101,35 @@
   }
 }
 
+@keyframes prizeBounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes prizeRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 @media (max-width: 768px) {
   .game-completion-message {
     padding: 2rem;
@@ -84,6 +137,15 @@
 
     h3 {
       font-size: 2rem;
+    }
+
+    .prize-image {
+      width: 100px;
+      height: 100px;
+    }
+
+    .prize-caption {
+      font-size: 1.1rem;
     }
 
     p {

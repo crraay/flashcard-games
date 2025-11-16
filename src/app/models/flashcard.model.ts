@@ -4,9 +4,3 @@ export interface Flashcard {
   caption: string;
 }
 
-export interface FlashcardSet {
-  id: string;
-  name: string;
-  description: string;
-  flashcardIds: string[];
-}
