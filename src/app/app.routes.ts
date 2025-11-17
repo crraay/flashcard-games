@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { GameSelectorComponent } from './components/game-selector/game-selector.component';
 import { FlashcardSetSelectorComponent } from './components/flashcard-set-selector/flashcard-set-selector.component';
+import { PrizesListComponent } from './components/prizes-list/prizes-list.component';
 import { MatchingGameComponent } from './games/matching-game/matching-game.component';
 import { MemoryGameComponent } from './games/memory-game/memory-game.component';
 import { QuizGameComponent } from './games/quiz-game/quiz-game.component';
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: '',
     component: FlashcardSetSelectorComponent
+  },
+  {
+    path: 'prizes',
+    component: PrizesListComponent
   },
   {
     path: 'sets/:setId/select',

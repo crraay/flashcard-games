@@ -1,0 +1,14 @@
+<div class="prizes-list-container">
+  <h1>All Prizes</h1>
+  <div class="prizes-grid">
+    <div
+      *ngFor="let prize of prizes"
+      class="prize-card">
+      <img [src]="prize.imageUrl" [alt]="prize.caption" class="prize-image">
+      <h3 class="prize-caption">{{ prize.caption }}</h3>
+    </div>
+  </div>
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Home
+  </button>
+</div>
