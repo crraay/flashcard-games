@@ -71,7 +71,42 @@ export class FlashcardService {
     { id: '63', imageUrl: 'https://media.istockphoto.com/id/1355408523/vector/kid-cartoon-character_32.jpg?s=612x612&w=0&k=20&c=YbMpwjbtIZXCKJufk6rrFIf3x89nI8Qc0PVyZpQyH-M=', caption: 'Think' },
     { id: '64', imageUrl: 'https://png.pngtree.com/png-vector/20220701/ourmid/pngtree-group-selfie-on-smartphone-png-image_5677466.png', caption: 'Photo' },
     { id: '65', imageUrl: 'https://media.istockphoto.com/id/968475622/vector/cartoon-dolphin.jpg?s=612x612&w=0&k=20&c=d5u0Xm_jcBh-1aFnWfeavX79u75Z-yECb8vy9iHz5Gk=', caption: 'Dolphin' },
-    { id: '66', imageUrl: 'https://www.shutterstock.com/image-vector/cute-baby-elephant-outline-coloring-600nw-2490295647.jpg', caption: 'Elephant' }
+    { id: '66', imageUrl: 'https://www.shutterstock.com/image-vector/cute-baby-elephant-outline-coloring-600nw-2490295647.jpg', caption: 'Elephant' },
+    { id: '67', imageUrl: 'https://static.vecteezy.com/system/resources/previews/060/826/787/non_2x/cartoon-green-bug-illustration-cheerful-insect-character-graphics-vector.jpg', caption: 'Bug' },
+    { id: '68', imageUrl: 'https://media.istockphoto.com/id/831537350/vector/cute-children-playing-tug-of-war.jpg?s=612x612&w=0&k=20&c=ETTLHkCqiN5Vu243CKmVKx2KkkpGl6FqvQR6SeCd9Ac=', caption: 'Tug' },
+    { id: '69', imageUrl: 'https://img.freepik.com/free-vector/acorn-sticker-white-background_1308-70248.jpg?semt=ais_hybrid&w=740&q=80', caption: 'Nut' },
+    { id: '70', imageUrl: 'https://media.istockphoto.com/id/866875396/vector/little-boy-playing-in-the-mud.jpg?s=612x612&w=0&k=20&c=AZ_6nP987J3lf8z0c3Oyv632fHxHW9bw7F_NZxDR2zg=', caption: 'Mud' },
+    { id: '71', imageUrl: 'https://static.vecteezy.com/system/resources/thumbnails/015/014/906/small_2x/hut-icon-cartoon-style-vector.jpg', caption: 'Hut' },
+    { id: '72', imageUrl: 'https://static.vecteezy.com/system/resources/previews/006/096/479/non_2x/scissor-cutting-paper-cartoon-icon-illustration-education-object-icon-concept-isolated-premium-flat-cartoon-style-free-vector.jpg', caption: 'Cut' },
+    { id: '73', imageUrl: 'https://img.freepik.com/premium-vector/bathtub-clipart-cartoon-illustration-drawing_871209-12277.jpg', caption: 'Tub' },
+    { id: '74', imageUrl: 'https://static.vecteezy.com/system/resources/previews/012/576/575/non_2x/children-laugh-at-the-fun-funny-cartoon-character-illustration-isolated-on-white-background-free-vector.jpg', caption: 'Fun' },
+    { id: '75', imageUrl: 'https://thumbs.dreamstime.com/b/illustration-cartoon-happy-mother-hugging-her-son-cartoon-happy-mother-hugging-her-son-144238202.jpg', caption: 'Hug' },
+    { id: '76', imageUrl: 'https://thumbs.dreamstime.com/b/cartoon-rug-isolated-white-background-illustration-cute-style-clean-404296006.jpg', caption: 'Rug' },
+
+    // Handicrafts I
+    { id: '77', imageUrl: 'https://shop.vitcas.com/media/amasty/blog/cache/P/o/1000/690/Pottery-craft-ceramics.jpg', caption: 'Pottery/Ceramic' },
+    { id: '78', imageUrl: 'https://image.vietnamlawmagazine.vn/uploadvietnamlaw/2022/6/13/trang-37-tradition-a1jpg113327806.jpg', caption: 'Bamboo/Rattan' },
+    { id: '79', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Various_products_made_from_paper.JPG/1200px-Various_products_made_from_paper.JPG', caption: 'Paper' },
+    { id: '80', imageUrl: 'https://noithatzear.vn/wp-content/uploads/2024/07/Plastic-la-gi.jpg', caption: 'Plastic' },
+    { id: '81', imageUrl: 'https://vico.com.hk/be/uploads/blogs/image_pFONUQ1fk.png', caption: 'Fabric' },
+    { id: '82', imageUrl: 'https://m.media-amazon.com/images/I/81Ry4Zp9S8L._AC_SL1500_.jpg', caption: 'Yarn/Wool' },
+    { id: '83', imageUrl: 'https://hwestequipment.com/wp-content/uploads/2019/02/Things-Made-from-Recycled-Glass.jpg', caption: 'Glass' },
+    { id: '84', imageUrl: 'https://zetarmoulding.com/wp-content/webp-express/webp-images/uploads/2022/10/natural-rubber-products.jpg.webp', caption: 'Rubber' },
+
+    // Handicrafts II
+    // { id: '85', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/bowl.PNG', caption: 'Bowl' },
+    // { id: '86', imageUrl: 'https://img.freepik.com/premium-vector/suitcase-travel-case-vector-illustration_97632-4413.jpg', caption: 'Case' },
+    // { id: '87', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/chair.PNG', caption: 'Chair' },
+    // { id: '88', imageUrl: 'https://img.freepik.com/premium-vector/basket-wicker-basket-vector-illustration_97632-4413.jpg', caption: 'Basket' },
+    // { id: '89', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/picture.PNG', caption: 'Picture' },
+    // { id: '90', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/cup.PNG', caption: 'Cup' },
+    // { id: '91', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/spoon.PNG', caption: 'Spoon' },
+    // { id: '92', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/toy.PNG', caption: 'Toy' },
+    // { id: '93', imageUrl: 'https://img.freepik.com/premium-vector/scarf-winter-scarf-vector-illustration_97632-4413.jpg', caption: 'Scarf' },
+    // { id: '94', imageUrl: 'https://img.freepik.com/premium-vector/sweater-knit-sweater-vector-illustration_97632-4413.jpg', caption: 'Sweater' },
+    // { id: '95', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/tshirt.PNG', caption: 'T-shirt' },
+    // { id: '96', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/bag.PNG', caption: 'Bag' },
+    // { id: '97', imageUrl: 'https://bestflashcard.com/images/vocabulary/english/oxford-phonics-world-2-unit-1-a/bottle.PNG', caption: 'Bottle' }
   ];
 
   private flashcardSets: FlashcardSet[] = [
@@ -135,6 +170,24 @@ export class FlashcardService {
       description: 'Words with PH consonant pattern',
       flashcardIds: ['38', '64', '65', '66']
     },
+    {
+      id: 'set12',
+      name: 'Short vowel U',
+      description: 'Words with short vowel U sound',
+      flashcardIds: ['67', '68', '69', '70', '71', '72', '73', '74', '75', '76']
+    },
+    {
+      id: 'set13',
+      name: 'Handicrafts I',
+      description: 'Handicraft materials and items',
+      flashcardIds: ['77', '78', '79', '80', '81', '82', '83', '84']
+    },
+    // {
+    //   id: 'set14',
+    //   name: 'Handicrafts II',
+    //   description: 'Handicraft items and products',
+    //   flashcardIds: ['85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97']
+    // },
     // always keep this last
     // always add all flashcards to this set
     {
