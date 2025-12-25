@@ -128,6 +128,13 @@ export class FlashcardService {
     { id: '111', imageUrl: 'https://thumbs.dreamstime.com/b/girl-unwrapping-present-12052067.jpg', caption: 'Unwrap' },
     { id: '112', imageUrl: 'https://www.shutterstock.com/image-vector/animated-cute-boy-writing-book-600nw-2615213357.jpg', caption: 'Write' },
     { id: '113', imageUrl: 'https://t4.ftcdn.net/jpg/00/74/79/29/360_F_74792937_UfhWnXDF7ZCX9C34N6RAFr20Y4ADN6oh.jpg', caption: 'Wreath' }
+    ,
+    // Christmas
+    { id: '114', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Christmas_tree_icon.svg/1024px-Christmas_tree_icon.svg.png', caption: 'Christmas Tree' },
+    { id: '115', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Santa_Claus_hat.svg/1024px-Santa_Claus_hat.svg.png', caption: 'Santa Hat' },
+    { id: '116', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Gift_font_awesome.svg/1024px-Gift_font_awesome.svg.png', caption: 'Gift' },
+    { id: '117', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Snowflake_font_awesome.svg/1024px-Snowflake_font_awesome.svg.png', caption: 'Snowflake' },
+    { id: '118', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Deer_font_awesome.svg/1024px-Deer_font_awesome.svg.png', caption: 'Reindeer' }
   ];
 
   private flashcardSets: FlashcardSet[] = [
@@ -226,6 +233,12 @@ export class FlashcardService {
       name: 'Consonant pattern: WR',
       description: 'Words with WR consonant pattern',
       flashcardIds: ['110', '111', '112', '113']
+    },
+    {
+      id: 'set18',
+      name: 'Christmas',
+      description: 'Christmas-themed vocabulary',
+      flashcardIds: ['114', '115', '116', '117', '118']
     },
     // {
     //   id: 'set18',
