@@ -2220,6 +2220,78 @@ export class FlashcardService {
       id: '430',
       caption: 'notebook',
       imageUrl: 'images/flashcards/430-notebook.png'
+    },
+
+    // Long vowel: i_e, ie, igh
+    {
+      id: '431',
+      caption: 'hike',
+      imageUrl: 'images/flashcards/431-hike.png'
+    },
+    {
+      id: '432',
+      caption: 'pine',
+      imageUrl: 'images/flashcards/432-pine.png'
+    },
+    {
+      id: '433',
+      caption: 'five',
+      imageUrl: 'images/flashcards/433-five.png'
+    },
+    {
+      id: '434',
+      caption: 'kite',
+      imageUrl: 'images/flashcards/434-kite.png'
+    },
+    {
+      id: '435',
+      caption: 'rise',
+      imageUrl: 'images/flashcards/435-rise.png'
+    },
+    {
+      id: '436',
+      caption: 'time',
+      imageUrl: 'images/flashcards/436-time.png'
+    },
+    {
+      id: '437',
+      caption: 'lie',
+      imageUrl: 'images/flashcards/437-lie.png'
+    },
+    {
+      id: '438',
+      caption: 'pie',
+      imageUrl: 'images/flashcards/438-pie.png'
+    },
+    {
+      id: '439',
+      caption: 'die',
+      imageUrl: 'images/flashcards/439-die.png'
+    },
+    {
+      id: '440',
+      caption: 'tie',
+      imageUrl: 'images/flashcards/440-tie.png'
+    },
+    {
+      id: '441',
+      caption: 'sigh',
+      imageUrl: 'images/flashcards/441-sigh.png'
+    },
+    {
+      id: '442',
+      caption: 'night',
+      imageUrl: 'images/flashcards/442-night.png'
+    },
+    {
+      id: '443',
+      caption: 'light',
+      imageUrl: 'images/flashcards/443-light.png'
+    },
+    {
+      id: '444',
+      caption: 'fight',
+      imageUrl: 'images/flashcards/444-fight.png'
     }
   ];
 
@@ -2595,6 +2667,13 @@ export class FlashcardService {
       name: 'School Items',
       description: 'School places, people, and classroom supplies',
       flashcardIds: ['425', '304', '378', '376', '314', '426', '427', '428', '329', '370', '429', '373', '79', '430', '9', '372', '371']
+    },
+    {
+      id: 'set58',
+      name: 'Long vowel: i_e, ie, igh',
+      description: 'Review long vowel i_e, ie, and igh vocabulary',
+      flashcardIds: ['431', '432', '433', '434', '435', '436', '130', '232', '437', '438', '439', '440', '441', '442', '443', '444'],
+      highlightPatterns: ['I', 'IE', 'IGH']
     },
     // {
     //   id: 'set18',
