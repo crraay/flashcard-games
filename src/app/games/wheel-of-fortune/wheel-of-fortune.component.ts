@@ -32,7 +32,8 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
   private static readonly MIN_FULL_TURNS = 4;
   private static readonly MAX_EXTRA_TURNS = 3;
   private static readonly PRIZE_COUNT = 3;
-  private static readonly SECTOR_COLORS = [
+  private static readonly DRAG_THRESHOLD_PX = 16;
+  private static readonly FLASHCARD_COLORS = [
     '#e53935',
     '#fb8c00',
     '#fdd835',
@@ -43,6 +44,22 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     '#d81b60',
     '#6d4c41',
     '#546e7a'
+  ];
+  private static readonly PRIZE_COLORS = [
+    '#f093fb',
+    '#f5576c',
+    '#ec407a',
+    '#e91e63',
+    '#d81b60',
+    '#c2185b'
+  ];
+  private static readonly ACTION_COLORS = [
+    '#00897b',
+    '#00acc1',
+    '#26a69a',
+    '#0097a7',
+    '#00796b',
+    '#4db6ac'
   ];
   private static readonly ACTIONS: WheelAction[] = [
     { id: 'clap', label: 'Clap your hands', emoji: '👏' },
@@ -59,12 +76,17 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
   isSpinning = false;
   showResult = false;
   resultSector: WheelSector | null = null;
-  pointerFlick = false;
+
+  private previousBodyOverflow = '';
+  private previousHtmlOverflow = '';
 
   private spinTimeout: ReturnType<typeof setTimeout> | null = null;
-  private pointerTimeout: ReturnType<typeof setTimeout> | null = null;
-  private pointerResetTimeout: ReturnType<typeof setTimeout> | null = null;
   private pendingResultIndex: number | null = null;
+  private dragPointerId: number | null = null;
+  private dragStartX = 0;
+  private dragStartY = 0;
+  private dragIntent = false;
+  private suppressNextClick = false;
 
   constructor(
     private flashcardService: FlashcardService,
@@ -98,11 +120,12 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     }
 
     this.initializeGame();
+    this.lockPageScroll();
   }
 
   ngOnDestroy(): void {
+    this.unlockPageScroll();
     this.clearSpinTimeout();
-    this.clearPointerTimers();
   }
 
   initializeGame(): void {
@@ -132,19 +155,13 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     }
 
     this.shuffleArray(sectors);
-    this.sectors = sectors.map((sector, index) => ({
-      ...sector,
-      color: WheelOfFortuneComponent.SECTOR_COLORS[
-        index % WheelOfFortuneComponent.SECTOR_COLORS.length
-      ]
-    }));
+    this.sectors = this.assignSectorColors(sectors);
 
     this.rotation = 0;
     this.isSpinning = false;
     this.showResult = false;
     this.resultSector = null;
     this.pendingResultIndex = null;
-    this.pointerFlick = false;
   }
 
   get sectorAngle(): number {
@@ -190,6 +207,51 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     return this.flashcardService.getHighlightPatternsForFlashcard(flashcardId, this.selectedSets);
   }
 
+  onWheelPointerDown(event: PointerEvent): void {
+    if (!this.canSpin) return;
+
+    this.dragPointerId = event.pointerId;
+    this.dragStartX = event.clientX;
+    this.dragStartY = event.clientY;
+    this.dragIntent = false;
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+  }
+
+  onWheelPointerMove(event: PointerEvent): void {
+    if (this.dragPointerId !== event.pointerId || this.dragIntent) return;
+
+    const dx = event.clientX - this.dragStartX;
+    const dy = event.clientY - this.dragStartY;
+    if (Math.hypot(dx, dy) >= WheelOfFortuneComponent.DRAG_THRESHOLD_PX) {
+      this.dragIntent = true;
+    }
+  }
+
+  onWheelPointerUp(event: PointerEvent): void {
+    if (this.dragPointerId !== event.pointerId) return;
+
+    const wasDrag = this.dragIntent;
+    this.resetDragState(event.currentTarget as HTMLElement);
+
+    if (wasDrag && this.canSpin) {
+      this.suppressNextClick = true;
+      this.spin();
+    }
+  }
+
+  onWheelPointerCancel(event: PointerEvent): void {
+    if (this.dragPointerId !== event.pointerId) return;
+    this.resetDragState(event.currentTarget as HTMLElement);
+  }
+
+  onWheelClick(): void {
+    if (this.suppressNextClick) {
+      this.suppressNextClick = false;
+      return;
+    }
+    this.spin();
+  }
+
   spin(): void {
     if (!this.canSpin) return;
 
@@ -210,7 +272,6 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
 
     this.isSpinning = true;
     this.rotation = this.rotation + fullTurns * 360 + delta;
-    this.startPointerFlicks(WheelOfFortuneComponent.SPIN_DURATION_MS);
 
     this.clearSpinTimeout();
     this.spinTimeout = setTimeout(() => {
@@ -237,6 +298,42 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     }
   }
 
+  private assignSectorColors(sectors: WheelSector[]): WheelSector[] {
+    const kindCounters: Record<WheelSector['kind'], number> = {
+      flashcard: 0,
+      prize: 0,
+      action: 0
+    };
+
+    return sectors.map(sector => {
+      const index = kindCounters[sector.kind]++;
+      const palette = this.getColorPaletteForKind(sector.kind);
+      return {
+        ...sector,
+        color: palette[index % palette.length]
+      };
+    });
+  }
+
+  private getColorPaletteForKind(kind: WheelSector['kind']): string[] {
+    switch (kind) {
+      case 'prize':
+        return WheelOfFortuneComponent.PRIZE_COLORS;
+      case 'action':
+        return WheelOfFortuneComponent.ACTION_COLORS;
+      default:
+        return WheelOfFortuneComponent.FLASHCARD_COLORS;
+    }
+  }
+
+  private resetDragState(element: HTMLElement): void {
+    if (this.dragPointerId != null && element.hasPointerCapture(this.dragPointerId)) {
+      element.releasePointerCapture(this.dragPointerId);
+    }
+    this.dragPointerId = null;
+    this.dragIntent = false;
+  }
+
   private pickRandomPrizes(count: number): Prize[] {
     const prizes = this.prizeService.getAllPrizes();
     this.shuffleArray(prizes);
@@ -254,8 +351,6 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     if (!this.isSpinning) return;
 
     this.clearSpinTimeout();
-    this.clearPointerTimers();
-    this.pointerFlick = false;
     this.isSpinning = false;
 
     if (this.pendingResultIndex == null) return;
@@ -265,32 +360,6 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     this.showResult = true;
   }
 
-  private startPointerFlicks(durationMs: number): void {
-    this.clearPointerTimers();
-
-    let elapsed = 0;
-    let interval = Math.max(50, Math.min(120, this.sectorAngle * 2));
-
-    const scheduleNext = (): void => {
-      if (elapsed >= durationMs - 150) return;
-
-      this.triggerPointerFlick();
-      elapsed += interval;
-      interval = Math.min(interval * 1.18, 380);
-
-      this.pointerTimeout = setTimeout(scheduleNext, interval);
-    };
-
-    scheduleNext();
-  }
-
-  private triggerPointerFlick(): void {
-    this.pointerFlick = false;
-    this.pointerResetTimeout = setTimeout(() => {
-      this.pointerFlick = true;
-    }, 20);
-  }
-
   private clearSpinTimeout(): void {
     if (this.spinTimeout != null) {
       clearTimeout(this.spinTimeout);
@@ -298,14 +367,15 @@ export class WheelOfFortuneComponent implements OnInit, OnDestroy {
     }
   }
 
-  private clearPointerTimers(): void {
-    if (this.pointerTimeout != null) {
-      clearTimeout(this.pointerTimeout);
-      this.pointerTimeout = null;
-    }
-    if (this.pointerResetTimeout != null) {
-      clearTimeout(this.pointerResetTimeout);
-      this.pointerResetTimeout = null;
-    }
+  private lockPageScroll(): void {
+    this.previousBodyOverflow = document.body.style.overflow;
+    this.previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  private unlockPageScroll(): void {
+    document.body.style.overflow = this.previousBodyOverflow;
+    document.documentElement.style.overflow = this.previousHtmlOverflow;
   }
 }

@@ -19,51 +19,58 @@
 
   <div *ngIf="selectedSets.length > 0 && !noFlashcards" class="game-content">
     <div class="wheel-stage">
-      <div
-        class="pointer"
-        [class.flick]="pointerFlick"
-        aria-hidden="true"></div>
+      <div class="pointer" aria-hidden="true"></div>
 
-      <div
-        class="wheel"
-        role="button"
-        tabindex="0"
-        [class.spinning]="isSpinning"
-        [class.disabled]="!canSpin"
-        [style.background]="conicGradient"
-        [style.transform]="'rotate(' + rotation + 'deg)'"
-        [style.transition]="isSpinning ? 'transform 4.5s cubic-bezier(0.12, 0.75, 0.12, 1)' : 'none'"
-        (click)="spin()"
-        (keydown.enter)="spin()"
-        (keydown.space)="$event.preventDefault(); spin()"
-        (transitionend)="onSpinTransitionEnd($event)"
-        aria-label="Spin the wheel">
+      <div class="wheel-spin-clip">
         <div
-          *ngFor="let sector of sectors; let i = index"
-          class="sector-spoke"
-          [style.--sector-angle.deg]="getSectorMidAngle(i)">
-          <div class="sector-icon">
-            <img
-              *ngIf="sector.kind === 'flashcard' && sector.flashcard"
-              [src]="sector.flashcard.imageUrl"
-              [alt]="sector.flashcard.caption"
-              draggable="false" />
-            <img
-              *ngIf="sector.kind === 'prize' && sector.prize?.imageUrl"
-              [src]="sector.prize!.imageUrl!"
-              [alt]="sector.prize!.caption"
-              draggable="false" />
-            <span
-              *ngIf="sector.kind === 'prize' && sector.prize && !sector.prize.imageUrl"
-              class="sector-emoji"
-              aria-hidden="true">🎁</span>
-            <span
-              *ngIf="sector.kind === 'action' && sector.action"
-              class="sector-emoji"
-              aria-hidden="true">{{ sector.action.emoji }}</span>
+          class="wheel"
+          role="button"
+          tabindex="0"
+          [class.spinning]="isSpinning"
+          [class.disabled]="!canSpin"
+          [style.background]="conicGradient"
+          [style.transform]="'rotate(' + rotation + 'deg)'"
+          [style.transition]="isSpinning ? 'transform 4.5s cubic-bezier(0.12, 0.75, 0.12, 1)' : 'none'"
+          (click)="onWheelClick()"
+          (pointerdown)="onWheelPointerDown($event)"
+          (pointermove)="onWheelPointerMove($event)"
+          (pointerup)="onWheelPointerUp($event)"
+          (pointercancel)="onWheelPointerCancel($event)"
+          (keydown.enter)="spin()"
+          (keydown.space)="$event.preventDefault(); spin()"
+          (transitionend)="onSpinTransitionEnd($event)"
+          aria-label="Spin the wheel">
+          <div
+            *ngFor="let sector of sectors; let i = index"
+            class="sector-spoke"
+            [style.--sector-angle.deg]="getSectorMidAngle(i)">
+            <div
+              class="sector-icon"
+              [class.sector-icon--flashcard]="sector.kind === 'flashcard'"
+              [class.sector-icon--prize]="sector.kind === 'prize'"
+              [class.sector-icon--action]="sector.kind === 'action'">
+              <img
+                *ngIf="sector.kind === 'flashcard' && sector.flashcard"
+                [src]="sector.flashcard.imageUrl"
+                [alt]="sector.flashcard.caption"
+                draggable="false" />
+              <img
+                *ngIf="sector.kind === 'prize' && sector.prize?.imageUrl"
+                [src]="sector.prize!.imageUrl!"
+                [alt]="sector.prize!.caption"
+                draggable="false" />
+              <span
+                *ngIf="sector.kind === 'prize' && sector.prize && !sector.prize.imageUrl"
+                class="sector-emoji"
+                aria-hidden="true">🎁</span>
+              <span
+                *ngIf="sector.kind === 'action' && sector.action"
+                class="sector-emoji"
+                aria-hidden="true">{{ sector.action.emoji }}</span>
+            </div>
           </div>
+          <div class="wheel-hub" aria-hidden="true"></div>
         </div>
-        <div class="wheel-hub" aria-hidden="true"></div>
       </div>
     </div>
   </div>
@@ -75,13 +82,19 @@
     role="dialog"
     aria-modal="true"
     [attr.aria-label]="getResultLabel(resultSector)">
-    <div class="result-card">
+    <div
+      class="result-card"
+      [class.result-card--flashcard]="resultSector.kind === 'flashcard'"
+      [class.result-card--prize]="resultSector.kind === 'prize'"
+      [class.result-card--action]="resultSector.kind === 'action'"
+      (click)="$event.stopPropagation()">
       <ng-container *ngIf="resultSector.kind === 'flashcard' && resultSector.flashcard">
-        <div class="result-image">
+        <div class="result-frame-image result-frame-image--word">
           <img
             [src]="resultSector.flashcard.imageUrl"
             [alt]="resultSector.flashcard.caption" />
         </div>
+        <p class="result-kind result-kind--word">Word</p>
         <h3 class="result-caption">
           <fg-highlighted-caption
             [caption]="resultSector.flashcard.caption"
@@ -91,26 +104,30 @@
       </ng-container>
 
       <ng-container *ngIf="resultSector.kind === 'prize' && resultSector.prize">
-        <div class="result-image">
+        <h3 class="result-prize-title">🎉 Prize! 🎉</h3>
+        <div class="result-prize-container">
           <img
             *ngIf="resultSector.prize.imageUrl"
+            class="result-prize-image"
             [src]="resultSector.prize.imageUrl"
             [alt]="resultSector.prize.caption" />
-          <span *ngIf="!resultSector.prize.imageUrl" class="result-emoji">🎁</span>
+          <span
+            *ngIf="!resultSector.prize.imageUrl"
+            class="result-prize-image result-prize-image--emoji"
+            aria-hidden="true">🎁</span>
         </div>
-        <p class="result-kind">Prize</p>
-        <h3 class="result-caption">{{ resultSector.prize.caption }}</h3>
+        <p class="result-prize-caption">{{ resultSector.prize.caption }}</p>
       </ng-container>
 
       <ng-container *ngIf="resultSector.kind === 'action' && resultSector.action">
-        <div class="result-image result-image-action">
-          <span class="result-emoji">{{ resultSector.action.emoji }}</span>
+        <div class="result-frame-image result-frame-image--action">
+          <span class="result-frame-emoji">{{ resultSector.action.emoji }}</span>
         </div>
-        <p class="result-kind">Action</p>
+        <p class="result-kind result-kind--action">Action</p>
         <h3 class="result-caption">{{ resultSector.action.label }}</h3>
       </ng-container>
 
-      <p class="result-hint">Tap anywhere to continue</p>
+      <p class="result-hint" [class.result-hint--prize]="resultSector.kind === 'prize'">Tap anywhere to continue</p>
     </div>
   </div>
 </div>
