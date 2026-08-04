@@ -2190,6 +2190,36 @@ export class FlashcardService {
       id: '424',
       caption: 'small',
       imageUrl: 'images/flashcards/424-small.png'
+    },
+    {
+      id: '425',
+      caption: 'school',
+      imageUrl: 'images/flashcards/425-school.png'
+    },
+    {
+      id: '426',
+      caption: 'teacher',
+      imageUrl: 'images/flashcards/426-teacher.png'
+    },
+    {
+      id: '427',
+      caption: 'eraser',
+      imageUrl: 'images/flashcards/427-eraser.png'
+    },
+    {
+      id: '428',
+      caption: 'ruler',
+      imageUrl: 'images/flashcards/428-ruler.png'
+    },
+    {
+      id: '429',
+      caption: 'sharpener',
+      imageUrl: 'images/flashcards/429-sharpener.png'
+    },
+    {
+      id: '430',
+      caption: 'notebook',
+      imageUrl: 'images/flashcards/430-notebook.png'
     }
   ];
 
@@ -2559,6 +2589,12 @@ export class FlashcardService {
       name: 'Pinocchio story',
       description: 'Pinocchio story vocabulary: characters, feelings, concepts, and structure',
       flashcardIds: ['418', '394', '419', '3', '420', '211', '421', '422', '414', '423', '424']
+    },
+    {
+      id: 'set57',
+      name: 'School Items',
+      description: 'School places, people, and classroom supplies',
+      flashcardIds: ['425', '304', '378', '376', '314', '426', '427', '428', '329', '370', '429', '373', '79', '430', '9', '372', '371']
     },
     // {
     //   id: 'set18',
