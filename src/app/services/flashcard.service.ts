@@ -2670,10 +2670,24 @@ export class FlashcardService {
     },
     {
       id: 'set58',
-      name: 'Long vowel: i_e, ie, igh',
-      description: 'Review long vowel i_e, ie, and igh vocabulary',
-      flashcardIds: ['431', '432', '433', '434', '435', '436', '130', '232', '437', '438', '439', '440', '441', '442', '443', '444'],
-      highlightPatterns: ['I', 'IE', 'IGH']
+      name: 'Long vowel: i_e',
+      description: 'Words with long vowel I sound (silent e pattern)',
+      flashcardIds: ['431', '432', '433', '434', '435', '436', '130', '232'],
+      highlightPatterns: ['I', 'E']
+    },
+    {
+      id: 'set59',
+      name: 'Long vowel: ie',
+      description: 'Words with long vowel IE pattern',
+      flashcardIds: ['437', '438', '439', '440'],
+      highlightPatterns: ['IE']
+    },
+    {
+      id: 'set60',
+      name: 'Long vowel: igh',
+      description: 'Words with long vowel IGH pattern',
+      flashcardIds: ['441', '442', '443', '444'],
+      highlightPatterns: ['IGH']
     },
     // {
     //   id: 'set18',
