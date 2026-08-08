@@ -2292,6 +2292,43 @@ export class FlashcardService {
       id: '444',
       caption: 'fight',
       imageUrl: 'images/flashcards/444-fight.png'
+    },
+
+    // Long vowel: oa, ow
+    {
+      id: '445',
+      caption: 'oat',
+      imageUrl: 'images/flashcards/445-oat.png'
+    },
+    {
+      id: '446',
+      caption: 'toad',
+      imageUrl: 'images/flashcards/446-toad.png'
+    },
+    {
+      id: '447',
+      caption: 'toast',
+      imageUrl: 'images/flashcards/447-toast.png'
+    },
+    {
+      id: '448',
+      caption: 'grow',
+      imageUrl: 'images/flashcards/448-grow.png'
+    },
+    {
+      id: '449',
+      caption: 'snow',
+      imageUrl: 'images/flashcards/449-snow.png'
+    },
+    {
+      id: '450',
+      caption: 'blow',
+      imageUrl: 'images/flashcards/450-blow.png'
+    },
+    {
+      id: '451',
+      caption: 'window',
+      imageUrl: 'images/flashcards/451-window.png'
     }
   ];
 
@@ -2689,6 +2726,20 @@ export class FlashcardService {
       flashcardIds: ['441', '442', '443', '444'],
       highlightPatterns: ['IGH']
     },
+    {
+      id: 'set61',
+      name: 'Long vowel: oa',
+      description: 'Words with long vowel O sound spelled oa',
+      flashcardIds: ['445', '446', '141', '447'],
+      highlightPatterns: ['OA']
+    },
+    {
+      id: 'set62',
+      name: 'Long vowel: ow',
+      description: 'Words with long vowel O sound spelled ow',
+      flashcardIds: ['448', '449', '450', '451'],
+      highlightPatterns: ['OW']
+    },
     // {
     //   id: 'set18',
     //   name: 'Handicrafts II',
@@ -2719,7 +2770,14 @@ export class FlashcardService {
   }
 
   getAllSets(): FlashcardSet[] {
-    return [...this.flashcardSets];
+    const sets = [...this.flashcardSets];
+    const allSetIndex = sets.findIndex(s => s.id === 'set5');
+    const allSet = allSetIndex >= 0 ? sets.splice(allSetIndex, 1)[0] : undefined;
+    sets.reverse();
+    if (allSet) {
+      sets.push(allSet);
+    }
+    return sets;
   }
 
   getFlashcardsBySetId(setId: string): Flashcard[] {
