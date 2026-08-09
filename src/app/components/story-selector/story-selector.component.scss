@@ -1,0 +1,316 @@
+.story-selector-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding-top: 5rem;
+
+  .header-section {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h1 {
+      color: #2c3e50;
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .instruction {
+      color: #5a6c7d;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.back-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+.story-card {
+  border: 4px solid transparent;
+  border-radius: 24px;
+  padding: 2rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &.selected {
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.2);
+    transform: translateY(-6px) scale(1.03);
+  }
+
+  .radio-wrapper {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
+  }
+
+  .custom-radio {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #2c3e50;
+      transform: scale(0);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.7);
+      transform: scale(1.1);
+    }
+  }
+
+  .custom-radio:checked + .radio-label {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 0.95);
+
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .story-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+
+    h2 {
+      font-size: 2.2rem;
+      margin: 0 0 0.75rem 0;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1.15rem;
+      margin: 0.5rem 0 1.25rem 0;
+      opacity: 0.95;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .sentence-count-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      margin-top: auto;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.story-story-oats-for-toast {
+  background: linear-gradient(135deg, #d4a574 0%, #8b6914 100%);
+}
+
+.story-story-the-mole {
+  background: linear-gradient(135deg, #795548 0%, #3e2723 100%);
+}
+
+.story-story-the-pie {
+  background: linear-gradient(135deg, #7e57c2 0%, #4527a0 100%);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  padding: 2rem 0;
+  position: sticky;
+  bottom: 2rem;
+  z-index: 50;
+}
+
+.start-game-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 3.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #689f38 0%, #33691e 100%);
+  color: white;
+  border: none;
+  border-radius: 35px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(104, 159, 56, 0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  .button-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(104, 159, 56, 0.5);
+
+    .button-icon {
+      transform: translateX(4px);
+    }
+  }
+
+  &:disabled {
+    background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .story-selector-container {
+    padding: 1rem;
+    padding-top: 4rem;
+
+    .header-section {
+      margin-bottom: 2rem;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .instruction {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .stories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .story-card {
+    padding: 1.5rem;
+    min-height: 180px;
+
+    .story-content h2 {
+      font-size: 1.8rem;
+    }
+  }
+
+  .back-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  .start-game-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+  }
+}

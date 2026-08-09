@@ -15,6 +15,8 @@ import { WhatsMissingComponent } from './games/whats-missing/whats-missing.compo
 import { SlideshowComponent } from './games/slideshow/slideshow.component';
 import { BucketSortingComponent } from './games/bucket-sorting/bucket-sorting.component';
 import { WheelOfFortuneComponent } from './games/wheel-of-fortune/wheel-of-fortune.component';
+import { StorySelectorComponent } from './components/story-selector/story-selector.component';
+import { BuildAStoryComponent } from './games/build-a-story/build-a-story.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +34,10 @@ export const routes: Routes = [
   {
     path: 'sets/:gameId/select',
     component: FlashcardSetSelectorComponent
+  },
+  {
+    path: 'stories/:gameId/select',
+    component: StorySelectorComponent
   },
   {
     path: 'games/matching',
@@ -80,6 +86,10 @@ export const routes: Routes = [
   {
     path: 'games/wheel-of-fortune',
     component: WheelOfFortuneComponent
+  },
+  {
+    path: 'games/build-a-story',
+    component: BuildAStoryComponent
   },
   {
     path: '**',

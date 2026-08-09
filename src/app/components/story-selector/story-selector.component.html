@@ -1,0 +1,48 @@
+<div class="story-selector-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Games
+  </button>
+
+  <div class="header-section">
+    <h1>Choose a Story</h1>
+    <p class="instruction">Select one story to build sentence by sentence</p>
+  </div>
+
+  <div class="stories-grid">
+    <div
+      *ngFor="let story of stories"
+      [class]="'story-card story-' + story.id"
+      [class.selected]="isStorySelected(story.id)"
+      (click)="selectStory(story.id)">
+      <div class="radio-wrapper">
+        <input
+          type="radio"
+          [checked]="isStorySelected(story.id)"
+          (click)="$event.stopPropagation()"
+          (change)="selectStory(story.id)"
+          [id]="'story-' + story.id"
+          [name]="'story-selection'"
+          class="custom-radio">
+        <label [for]="'story-' + story.id" class="radio-label"></label>
+      </div>
+      <div class="story-content">
+        <h2>{{ story.name }}</h2>
+        <p *ngIf="story.description">{{ story.description }}</p>
+        <div class="sentence-count-badge">
+          <span class="count-text">{{ getSentenceCount(story) }} {{ getSentenceCount(story) === 1 ? 'sentence' : 'sentences' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button
+      class="start-game-button"
+      (click)="startGame()"
+      [disabled]="!selectedStoryId"
+      type="button">
+      <span class="button-text">Start Game</span>
+      <span class="button-icon" *ngIf="selectedStoryId">→</span>
+    </button>
+  </div>
+</div>

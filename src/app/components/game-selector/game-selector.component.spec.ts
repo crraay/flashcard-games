@@ -54,7 +54,8 @@ describe('GameSelectorComponent', () => {
       'slideshow',
       'whats-missing',
       'bucket-sorting',
-      'wheel-of-fortune'
+      'wheel-of-fortune',
+      'build-a-story'
     ]);
   });
 
@@ -65,5 +66,15 @@ describe('GameSelectorComponent', () => {
 
     expect(gamePlayHistory.recordGameClick).toHaveBeenCalledWith(game.id);
     expect(router.navigate).toHaveBeenCalledWith(['/sets', game.id, 'select']);
+  });
+
+  it('should navigate to story selector for build-a-story', () => {
+    const game = component.games.find(g => g.id === 'build-a-story');
+    expect(game).toBeTruthy();
+
+    component.selectGame(game!);
+
+    expect(gamePlayHistory.recordGameClick).toHaveBeenCalledWith('build-a-story');
+    expect(router.navigate).toHaveBeenCalledWith(['/stories', 'build-a-story', 'select']);
   });
 });

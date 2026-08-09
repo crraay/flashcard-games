@@ -1,0 +1,87 @@
+<div class="build-a-story-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Story Selection
+  </button>
+
+  <div *ngIf="selectedStory && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedStory.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Sentence {{ currentQuestionIndex + 1 }}/{{ questions.length }}</span>
+      <span class="stat">Score: {{ score }}/{{ questions.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Story Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedStory && !gameComplete && getCurrentQuestion()" class="game-content">
+    <div *ngIf="completedSentences.length > 0" class="story-built">
+      <div class="story-built-label">Your Story So Far:</div>
+      <div class="story-built-sentences">
+        <p *ngFor="let sentence of completedSentences" class="story-sentence">{{ sentence }}</p>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>Put the words in the right order to build the sentence!</h3>
+    </div>
+
+    <div class="answer-area">
+      <div class="answer-label">Your Sentence:</div>
+      <div class="answer-words">
+        <button
+          *ngFor="let word of userAnswer; let i = index"
+          class="answer-word"
+          (click)="removeWord(word, i)"
+          [class.disabled]="showResult"
+          type="button">
+          {{ word }}
+        </button>
+        <span *ngIf="userAnswer.length === 0" class="answer-placeholder">Click words below to build your sentence</span>
+      </div>
+    </div>
+
+    <div class="available-words" *ngIf="availableWords.length > 0">
+      <div class="words-label">Word Pieces:</div>
+      <div class="words-grid">
+        <button
+          *ngFor="let word of availableWords; let i = index"
+          class="word-button"
+          (click)="selectWord(word, i)"
+          [class.disabled]="showResult"
+          type="button">
+          {{ word }}
+        </button>
+      </div>
+    </div>
+
+    <div class="actions" *ngIf="!showResult">
+      <button
+        class="check-button"
+        [class.disabled]="!canCheckAnswer()"
+        (click)="checkAnswer()"
+        type="button">
+        Check Answer
+      </button>
+    </div>
+
+    <div *ngIf="showResult" class="result-message">
+      <div [class]="'message ' + (isCorrect ? 'correct' : 'incorrect')">
+        <p *ngIf="isCorrect">🎉 Correct! Great job!</p>
+        <p *ngIf="!isCorrect">❌ Not quite. Try again or move on.</p>
+      </div>
+      <div class="result-actions">
+        <button *ngIf="!isCorrect" class="repeat-button" (click)="repeatQuestion()" type="button">
+          Repeat
+        </button>
+        <button class="next-button" (click)="nextQuestion()" type="button">
+          {{ getNextButtonLabel() }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

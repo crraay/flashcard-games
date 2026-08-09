@@ -91,6 +91,12 @@ export class GameSelectorComponent implements OnInit {
       name: 'Wheel of Fortune',
       description: 'Spin the wheel to land on a random flashcard',
       imagePath: 'images/games/wheel-of-fortune.png'
+    },
+    {
+      id: 'build-a-story',
+      name: 'Build a Story',
+      description: 'Put the words in order to build each sentence of a story',
+      imagePath: 'images/games/build-a-story.png'
     }
   ];
 
@@ -107,6 +113,10 @@ export class GameSelectorComponent implements OnInit {
 
   selectGame(game: Game): void {
     this.gamePlayHistory.recordGameClick(game.id);
+    if (game.id === 'build-a-story') {
+      this.router.navigate(['/stories', game.id, 'select']);
+      return;
+    }
     this.router.navigate(['/sets', game.id, 'select']);
   }
 
