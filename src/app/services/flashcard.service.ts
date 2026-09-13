@@ -96,7 +96,7 @@ export class FlashcardService {
     {
       id: '18',
       caption: 'Neck',
-      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBxOzAPnbxIGpLeAd9ebitWVCBzgaVaP6xaw&s'
+      imageUrl: 'images/flashcards/18-neck.png'
     },
     {
       id: '19',
@@ -876,7 +876,7 @@ export class FlashcardService {
     {
       id: '169',
       caption: 'Drum',
-      imageUrl: 'https://img.freepik.com/free-vector/yellow-drum-illustration_24908-81974.jpg?semt=ais_hybrid&w=740&q=80'
+      imageUrl: 'images/flashcards/169-drum.png'
     },
     {
       id: '170',
@@ -1179,7 +1179,7 @@ export class FlashcardService {
     {
       id: '231',
       caption: 'leg',
-      imageUrl: "https://media.istockphoto.com/id/931734144/vector/leg-vector-in-front-view.jpg?s=612x612&w=0&k=20&c=YLYm-riT2qe2u3XQJ2m46WwKxSnW6Le4UJpLfxB4CTc="
+      imageUrl: 'images/flashcards/231-leg.png'
     },
     {
       id: '232',
@@ -1359,7 +1359,7 @@ export class FlashcardService {
     {
       id: '265',
       caption: 'foot',
-      imageUrl: 'https://img.freepik.com/free-vector/hand-drawn-foot-cartoon-illustration_23-2151086600.jpg?semt=ais_rp_progressive&w=740&q=80'
+      imageUrl: 'images/flashcards/265-foot.png'
     },
     {
       id: '266',
@@ -2363,6 +2363,102 @@ export class FlashcardService {
       id: '457',
       caption: 'mitten',
       imageUrl: 'images/flashcards/457-mitten.png'
+    },
+
+    // Body parts
+    {
+      id: '458',
+      caption: 'Head',
+      imageUrl: 'images/flashcards/458-head.png'
+    },
+    {
+      id: '459',
+      caption: 'Shoulders',
+      imageUrl: 'images/flashcards/459-shoulders.png'
+    },
+    {
+      id: '460',
+      caption: 'Arm',
+      imageUrl: 'images/flashcards/460-arm.png'
+    },
+    {
+      id: '461',
+      caption: 'Hand',
+      imageUrl: 'images/flashcards/461-hand.png'
+    },
+    {
+      id: '462',
+      caption: 'Hair',
+      imageUrl: 'images/flashcards/462-hair.png'
+    },
+    {
+      id: '463',
+      caption: 'Teeth',
+      imageUrl: 'images/flashcards/463-teeth.png'
+    },
+
+    // Face
+    {
+      id: '464',
+      caption: 'Eyes',
+      imageUrl: 'images/flashcards/464-eyes.png'
+    },
+    {
+      id: '465',
+      caption: 'Nose',
+      imageUrl: 'images/flashcards/465-nose.png'
+    },
+    {
+      id: '466',
+      caption: 'Mouth',
+      imageUrl: 'images/flashcards/466-mouth.png'
+    },
+    {
+      id: '467',
+      caption: 'Cheeks',
+      imageUrl: 'images/flashcards/467-cheeks.png'
+    },
+    {
+      id: '468',
+      caption: 'Lips',
+      imageUrl: 'images/flashcards/468-lips.png'
+    },
+    {
+      id: '469',
+      caption: 'Eyebrows',
+      imageUrl: 'images/flashcards/469-eyebrows.png'
+    },
+
+    // Mid Autumn Festival
+    {
+      id: '470',
+      caption: 'Mask',
+      imageUrl: 'images/flashcards/470-mask.png'
+    },
+    {
+      id: '471',
+      caption: 'Lantern',
+      imageUrl: 'images/flashcards/471-lantern.png'
+    },
+    {
+      id: '472',
+      caption: 'Lion head',
+      imageUrl: 'images/flashcards/472-lion-head.png'
+    },
+    {
+      id: '473',
+      caption: 'Mooncake',
+      imageUrl: 'images/flashcards/473-mooncake.png'
+    },
+    {
+      id: '474',
+      caption: 'Finger',
+      imageUrl: 'images/flashcards/474-finger.png'
+    },
+    {
+      id: '475',
+      caption: 'Toe',
+      imageUrl: 'images/flashcards/475-toe.png'
     }
   ];
 
@@ -2787,6 +2883,24 @@ export class FlashcardService {
       description: 'Vocabulary for letter T',
       flashcardIds: ['330', '3', '22', '456', '457'],
       highlightPatterns: ['T']
+    },
+    {
+      id: 'set67',
+      name: 'Mid Autumn Festival',
+      description: 'Vocabulary for Mid-Autumn Festival',
+      flashcardIds: ['470', '471', '169', '472', '473']
+    },
+    {
+      id: 'set66',
+      name: 'Face',
+      description: 'Parts of the face',
+      flashcardIds: ['464', '465', '466', '467', '468', '469']
+    },
+    {
+      id: 'set65',
+      name: 'Body parts',
+      description: 'Vocabulary for parts of the body',
+      flashcardIds: ['458', '459', '18', '460', '461', '474', '462', '231', '265', '475', '463']
     },
     // {
     //   id: 'set18',
