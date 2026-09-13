@@ -2459,6 +2459,45 @@ export class FlashcardService {
       id: '475',
       caption: 'Toe',
       imageUrl: 'images/flashcards/475-toe.png'
+    },
+
+    // Consonant pattern: SS - glass, grass, hiss, mess
+    {
+      id: '476',
+      caption: 'Grass',
+      imageUrl: 'images/flashcards/476-grass.png'
+    },
+    {
+      id: '477',
+      caption: 'Hiss',
+      imageUrl: 'images/flashcards/477-hiss.png'
+    },
+    {
+      id: '478',
+      caption: 'Mess',
+      imageUrl: 'images/flashcards/478-mess.png'
+    },
+
+    // Consonant pattern: LL - bell, tell, sell, yell
+    {
+      id: '479',
+      caption: 'Bell',
+      imageUrl: 'images/flashcards/479-bell.png'
+    },
+    {
+      id: '480',
+      caption: 'Tell',
+      imageUrl: 'images/flashcards/480-tell.png'
+    },
+    {
+      id: '481',
+      caption: 'Sell',
+      imageUrl: 'images/flashcards/481-sell.png'
+    },
+    {
+      id: '482',
+      caption: 'Yell',
+      imageUrl: 'images/flashcards/482-yell.png'
     }
   ];
 
@@ -2901,6 +2940,20 @@ export class FlashcardService {
       name: 'Body parts',
       description: 'Vocabulary for parts of the body',
       flashcardIds: ['458', '459', '18', '460', '461', '474', '462', '231', '265', '475', '463']
+    },
+    {
+      id: 'set68',
+      name: 'Consonant pattern: SS',
+      description: 'Words ending with the SS consonant pattern',
+      flashcardIds: ['83', '476', '477', '478'],
+      highlightPatterns: ['SS']
+    },
+    {
+      id: 'set69',
+      name: 'Consonant pattern: LL',
+      description: 'Words ending with the LL consonant pattern',
+      flashcardIds: ['479', '480', '481', '482'],
+      highlightPatterns: ['LL']
     },
     // {
     //   id: 'set18',
