@@ -2329,6 +2329,40 @@ export class FlashcardService {
       id: '451',
       caption: 'window',
       imageUrl: 'images/flashcards/451-window.png'
+    },
+
+    // Neptune - Letter A
+    {
+      id: '452',
+      caption: 'Axe',
+      imageUrl: 'images/flashcards/452-axe.png'
+    },
+    {
+      id: '453',
+      caption: 'Fast',
+      imageUrl: 'images/flashcards/453-fast.png'
+    },
+    {
+      id: '454',
+      caption: 'Ant',
+      imageUrl: 'images/flashcards/454-ant.png'
+    },
+    {
+      id: '455',
+      caption: 'Van',
+      imageUrl: 'images/flashcards/455-van.png'
+    },
+
+    // Letter T
+    {
+      id: '456',
+      caption: 'hot',
+      imageUrl: 'images/flashcards/456-hot.png'
+    },
+    {
+      id: '457',
+      caption: 'mitten',
+      imageUrl: 'images/flashcards/457-mitten.png'
     }
   ];
 
@@ -2739,6 +2773,20 @@ export class FlashcardService {
       description: 'Words with long vowel O sound spelled ow',
       flashcardIds: ['448', '449', '450', '451'],
       highlightPatterns: ['OW']
+    },
+    {
+      id: 'set63',
+      name: 'Letter A',
+      description: 'Vocabulary for letter A',
+      flashcardIds: ['8', '452', '453', '454', '455'],
+      highlightPatterns: ['A']
+    },
+    {
+      id: 'set64',
+      name: 'Letter T',
+      description: 'Vocabulary for letter T',
+      flashcardIds: ['330', '3', '22', '456', '457'],
+      highlightPatterns: ['T']
     },
     // {
     //   id: 'set18',
