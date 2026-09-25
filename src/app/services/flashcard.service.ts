@@ -311,7 +311,7 @@ export class FlashcardService {
     {
       id: '61',
       caption: 'Pink',
-      imageUrl: 'https://www.clker.com/cliparts/H/n/Z/W/5/r/ink-splash-pink.svg.hi.png'
+      imageUrl: 'images/flashcards/61-pink.png'
     },
     {
       id: '62',
@@ -733,7 +733,7 @@ export class FlashcardService {
     {
       id: '142',
       caption: 'Sugar',
-      imageUrl: 'https://img.freepik.com/premium-vector/jar-sugar-with-spoon_642458-971.jpg'
+      imageUrl: 'images/flashcards/142-sugar.png'
     },
     {
       id: '143',
