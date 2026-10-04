@@ -17,6 +17,8 @@ import { BucketSortingComponent } from './games/bucket-sorting/bucket-sorting.co
 import { WheelOfFortuneComponent } from './games/wheel-of-fortune/wheel-of-fortune.component';
 import { StorySelectorComponent } from './components/story-selector/story-selector.component';
 import { BuildAStoryComponent } from './games/build-a-story/build-a-story.component';
+import { SightWordSetSelectorComponent } from './components/sight-word-set-selector/sight-word-set-selector.component';
+import { SightWordsComponent } from './games/sight-words/sight-words.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +40,10 @@ export const routes: Routes = [
   {
     path: 'stories/:gameId/select',
     component: StorySelectorComponent
+  },
+  {
+    path: 'sight-word-sets/:gameId/select',
+    component: SightWordSetSelectorComponent
   },
   {
     path: 'games/matching',
@@ -90,6 +96,10 @@ export const routes: Routes = [
   {
     path: 'games/build-a-story',
     component: BuildAStoryComponent
+  },
+  {
+    path: 'games/sight-words',
+    component: SightWordsComponent
   },
   {
     path: '**',

@@ -97,6 +97,12 @@ export class GameSelectorComponent implements OnInit {
       name: 'Build a Story',
       description: 'Put the words in order to build each sentence of a story',
       imagePath: 'images/games/build-a-story.png'
+    },
+    {
+      id: 'sight-words',
+      name: 'Sight Words',
+      description: 'Find the sight words in each sentence',
+      imagePath: 'images/games/sight-words.png'
     }
   ];
 
@@ -115,6 +121,10 @@ export class GameSelectorComponent implements OnInit {
     this.gamePlayHistory.recordGameClick(game.id);
     if (game.id === 'build-a-story') {
       this.router.navigate(['/stories', game.id, 'select']);
+      return;
+    }
+    if (game.id === 'sight-words') {
+      this.router.navigate(['/sight-word-sets', game.id, 'select']);
       return;
     }
     this.router.navigate(['/sets', game.id, 'select']);

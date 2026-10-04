@@ -1,0 +1,66 @@
+<div class="sight-words-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Set Selection
+  </button>
+
+  <div *ngIf="selectedSet && !gameComplete" class="game-header">
+    <h2 class="game-title">{{ selectedSet.name }}</h2>
+    <div class="game-stats">
+      <span class="stat">Sentence {{ currentSentenceIndex + 1 }}/{{ sentences.length }}</span>
+    </div>
+  </div>
+
+  <fg-game-completion
+    *ngIf="gameComplete"
+    title="🎉 Game Complete! 🎉"
+    [message]="getCompletionMessage()"
+    (restart)="restartGame()">
+  </fg-game-completion>
+
+  <div *ngIf="selectedSet && !gameComplete && getCurrentSentence()" class="game-content">
+    <div class="target-bank">
+      <div class="target-label">Sight words</div>
+      <div class="target-words">
+        <span *ngFor="let word of selectedSet.sightWords" class="target-chip">{{ word }}</span>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>Tap the sight words in the sentence!</h3>
+    </div>
+
+    <div *ngIf="getCompletedSentences().length > 0" class="completed-sentences">
+      <div
+        *ngFor="let sentence of getCompletedSentences()"
+        class="sentence-row completed">
+        <button
+          *ngFor="let word of sentence.words"
+          class="word-button"
+          [class.selected]="word.selected"
+          disabled
+          type="button">
+          {{ word.display }}
+        </button>
+      </div>
+    </div>
+
+    <div class="sentence-row current">
+      <button
+        *ngFor="let word of getCurrentSentence()!.words; let i = index"
+        class="word-button"
+        [class.selected]="word.selected"
+        [class.disabled]="word.selected"
+        (click)="onWordClick(word, i)"
+        type="button">
+        {{ word.display }}
+        <span class="miss-emoji" *ngIf="missWordIndex === i">😢</span>
+      </button>
+    </div>
+
+    <div class="actions" *ngIf="allSightWordsFound()">
+      <button class="next-button" (click)="nextSentence()" type="button">
+        {{ getNextButtonLabel() }}
+      </button>
+    </div>
+  </div>
+</div>

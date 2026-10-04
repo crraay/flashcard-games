@@ -55,7 +55,8 @@ describe('GameSelectorComponent', () => {
       'whats-missing',
       'bucket-sorting',
       'wheel-of-fortune',
-      'build-a-story'
+      'build-a-story',
+      'sight-words'
     ]);
   });
 
@@ -76,5 +77,15 @@ describe('GameSelectorComponent', () => {
 
     expect(gamePlayHistory.recordGameClick).toHaveBeenCalledWith('build-a-story');
     expect(router.navigate).toHaveBeenCalledWith(['/stories', 'build-a-story', 'select']);
+  });
+
+  it('should navigate to sight word set selector for sight-words', () => {
+    const game = component.games.find(g => g.id === 'sight-words');
+    expect(game).toBeTruthy();
+
+    component.selectGame(game!);
+
+    expect(gamePlayHistory.recordGameClick).toHaveBeenCalledWith('sight-words');
+    expect(router.navigate).toHaveBeenCalledWith(['/sight-word-sets', 'sight-words', 'select']);
   });
 });

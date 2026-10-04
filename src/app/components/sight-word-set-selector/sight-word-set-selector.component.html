@@ -1,0 +1,48 @@
+<div class="sight-word-set-selector-container">
+  <button class="back-button" (click)="goBack()" type="button">
+    ← Back to Games
+  </button>
+
+  <div class="header-section">
+    <h1>Choose a Sight Words Set</h1>
+    <p class="instruction">Select one set to find the sight words in each sentence</p>
+  </div>
+
+  <div class="sets-grid">
+    <div
+      *ngFor="let set of sets"
+      [class]="'set-card set-' + set.id"
+      [class.selected]="isSetSelected(set.id)"
+      (click)="selectSet(set.id)">
+      <div class="radio-wrapper">
+        <input
+          type="radio"
+          [checked]="isSetSelected(set.id)"
+          (click)="$event.stopPropagation()"
+          (change)="selectSet(set.id)"
+          [id]="'set-' + set.id"
+          [name]="'sight-word-set-selection'"
+          class="custom-radio">
+        <label [for]="'set-' + set.id" class="radio-label"></label>
+      </div>
+      <div class="set-content">
+        <h2>{{ set.name }}</h2>
+        <p *ngIf="set.description">{{ set.description }}</p>
+        <div class="sentence-count-badge">
+          <span class="count-text">{{ getSentenceCount(set) }} {{ getSentenceCount(set) === 1 ? 'sentence' : 'sentences' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button
+      class="start-game-button"
+      (click)="startGame()"
+      [disabled]="!selectedSetId"
+      type="button">
+      <span class="button-text">Start Game</span>
+      <span class="button-icon" *ngIf="selectedSetId">→</span>
+    </button>
+  </div>
+</div>
