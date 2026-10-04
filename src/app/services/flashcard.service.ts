@@ -2539,6 +2539,50 @@ export class FlashcardService {
       id: '489',
       caption: 'pony',
       imageUrl: 'images/flashcards/489-pony.png'
+    },
+
+    // Consonant pattern: FF - staff, sniff, puff, muffin
+    {
+      id: '490',
+      caption: 'staff',
+      imageUrl: 'images/flashcards/490-staff.png'
+    },
+    {
+      id: '491',
+      caption: 'sniff',
+      imageUrl: 'images/flashcards/491-sniff.png'
+    },
+    {
+      id: '492',
+      caption: 'puff',
+      imageUrl: 'images/flashcards/492-puff.png'
+    },
+    {
+      id: '493',
+      caption: 'muffin',
+      imageUrl: 'images/flashcards/493-muffin.png'
+    },
+
+    // Consonant pattern: ZZ - jazz, fuzzy, fizzy, dizzy
+    {
+      id: '494',
+      caption: 'jazz',
+      imageUrl: 'images/flashcards/494-jazz.png'
+    },
+    {
+      id: '495',
+      caption: 'fuzzy',
+      imageUrl: 'images/flashcards/495-fuzzy.png'
+    },
+    {
+      id: '496',
+      caption: 'fizzy',
+      imageUrl: 'images/flashcards/496-fizzy.png'
+    },
+    {
+      id: '497',
+      caption: 'dizzy',
+      imageUrl: 'images/flashcards/497-dizzy.png'
     }
   ];
 
@@ -3016,6 +3060,20 @@ export class FlashcardService {
       description: 'Letter name & sound intro: Nn – beginning, middle, and ending sounds',
       flashcardIds: ['69', '488', '455', '489'],
       highlightPatterns: ['N']
+    },
+    {
+      id: 'set73',
+      name: 'Consonant pattern: FF',
+      description: 'Words with the FF consonant pattern',
+      flashcardIds: ['490', '491', '492', '493'],
+      highlightPatterns: ['FF']
+    },
+    {
+      id: 'set74',
+      name: 'Consonant pattern: ZZ',
+      description: 'Words with the ZZ consonant pattern',
+      flashcardIds: ['494', '495', '496', '497'],
+      highlightPatterns: ['ZZ']
     },
     // {
     //   id: 'set18',
