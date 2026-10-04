@@ -2498,6 +2498,47 @@ export class FlashcardService {
       id: '482',
       caption: 'Yell',
       imageUrl: 'images/flashcards/482-yell.png'
+    },
+
+    // Letter Ii - beginning and ending sounds
+    {
+      id: '483',
+      caption: 'In',
+      imageUrl: 'images/flashcards/483-in.png'
+    },
+    {
+      id: '484',
+      caption: 'igloo',
+      imageUrl: 'images/flashcards/484-igloo.png'
+    },
+    {
+      id: '485',
+      caption: 'fin',
+      imageUrl: 'images/flashcards/485-fin.png'
+    },
+    {
+      id: '486',
+      caption: 'ski',
+      imageUrl: 'images/flashcards/486-ski.png'
+    },
+
+    // Letter Pp - beginning and ending sounds
+    {
+      id: '487',
+      caption: 'lip',
+      imageUrl: 'images/flashcards/487-lip.png'
+    },
+
+    // Letter Nn - beginning, middle, and ending sounds
+    {
+      id: '488',
+      caption: 'nest',
+      imageUrl: 'images/flashcards/488-nest.png'
+    },
+    {
+      id: '489',
+      caption: 'pony',
+      imageUrl: 'images/flashcards/489-pony.png'
     }
   ];
 
@@ -2954,6 +2995,27 @@ export class FlashcardService {
       description: 'Words ending with the LL consonant pattern',
       flashcardIds: ['479', '480', '481', '482'],
       highlightPatterns: ['LL']
+    },
+    {
+      id: 'set70',
+      name: 'Letter Ii',
+      description: 'Letter name & sound intro: Ii – beginning and ending sounds',
+      flashcardIds: ['483', '484', '485', '486'],
+      highlightPatterns: ['I']
+    },
+    {
+      id: 'set71',
+      name: 'Letter Pp',
+      description: 'Letter name & sound intro: Pp – beginning and ending sounds',
+      flashcardIds: ['356', '24', '21', '487'],
+      highlightPatterns: ['P']
+    },
+    {
+      id: 'set72',
+      name: 'Letter Nn',
+      description: 'Letter name & sound intro: Nn – beginning, middle, and ending sounds',
+      flashcardIds: ['69', '488', '455', '489'],
+      highlightPatterns: ['N']
     },
     // {
     //   id: 'set18',
