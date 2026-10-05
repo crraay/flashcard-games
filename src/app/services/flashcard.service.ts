@@ -2583,6 +2583,48 @@ export class FlashcardService {
       id: '497',
       caption: 'dizzy',
       imageUrl: 'images/flashcards/497-dizzy.png'
+    },
+
+    // My Family - Family, Daddy, Mommy, Grandfather, Grandmother, Brother, Sister, Baby
+    {
+      id: '498',
+      caption: 'Family',
+      imageUrl: 'images/flashcards/498-family.png'
+    },
+    {
+      id: '499',
+      caption: 'Daddy',
+      imageUrl: 'images/flashcards/499-daddy.png'
+    },
+    {
+      id: '500',
+      caption: 'Mommy',
+      imageUrl: 'images/flashcards/500-mommy.png'
+    },
+    {
+      id: '501',
+      caption: 'Grandfather',
+      imageUrl: 'images/flashcards/501-grandfather.png'
+    },
+    {
+      id: '502',
+      caption: 'Grandmother',
+      imageUrl: 'images/flashcards/502-grandmother.png'
+    },
+    {
+      id: '503',
+      caption: 'Brother',
+      imageUrl: 'images/flashcards/503-brother.png'
+    },
+    {
+      id: '504',
+      caption: 'Sister',
+      imageUrl: 'images/flashcards/504-sister.png'
+    },
+    {
+      id: '505',
+      caption: 'Baby',
+      imageUrl: 'images/flashcards/505-baby.png'
     }
   ];
 
@@ -3074,6 +3116,12 @@ export class FlashcardService {
       description: 'Words with the ZZ consonant pattern',
       flashcardIds: ['494', '495', '496', '497'],
       highlightPatterns: ['ZZ']
+    },
+    {
+      id: 'set75',
+      name: 'My Family',
+      description: 'Family members vocabulary',
+      flashcardIds: ['498', '499', '500', '501', '502', '503', '504', '505']
     },
     // {
     //   id: 'set18',
