@@ -24,7 +24,7 @@ export class PrizeService {
     {
       id: '4',
       caption: 'Pokemon',
-      imageUrl: 'https://gamestop.vn/wp-content/uploads/2025/07/pikachu.jpg'
+      imageUrl: 'https://bizweb.dktcdn.net/thumb/1024x1024/100/567/082/products/6933356301597-6.jpg?v=1746851365663'
     },
     {
       id: '5',
@@ -139,7 +139,7 @@ export class PrizeService {
     {
       id: '27',
       caption: 'Monster',
-      imageUrl: 'https://noodoll.com/media/catalog/product/cache/125bf494f9df1a37688f140f29689719/n/o/noodoll-monster-plush-toy-ricemon-1_1.jpg'
+      imageUrl: 'https://cdn.shopify.com/s/files/1/0731/6514/4343/t/7/assets/mykingdom-do-choi-schleich-2.jpg?v=1686019275'
     },
     {
       id: '28',
@@ -194,7 +194,7 @@ export class PrizeService {
     {
       id: '39',
       caption: 'Peppa Pig Backpack',
-      imageUrl: 'https://bonbonsbabywear.co.uk/cdn/shop/files/peppapiglovekidsbackpack.png?v=1713435896'
+      imageUrl: 'https://down-vn.img.susercontent.com/file/cn-11134207-7ras8-m30ua134jo4nc8'
     },
     {
       id: '40',
