@@ -17,10 +17,25 @@ export class GameCompletionComponent implements OnInit {
   @Output() restart = new EventEmitter<void>();
 
   prize: Prize | null = null;
+  prizeImageUnavailable = false;
 
-  constructor(private prizeService: PrizeService) {}
+  private prizeImageErrorAttempts = 0;
+  private readonly maxPrizeImageAttempts: number;
+
+  constructor(private prizeService: PrizeService) {
+    this.maxPrizeImageAttempts = this.prizeService.getAllPrizes().length;
+  }
 
   ngOnInit(): void {
+    this.prize = this.prizeService.getRandomPrize();
+  }
+
+  onPrizeImageError(): void {
+    this.prizeImageErrorAttempts++;
+    if (this.prizeImageErrorAttempts >= this.maxPrizeImageAttempts) {
+      this.prizeImageUnavailable = true;
+      return;
+    }
     this.prize = this.prizeService.getRandomPrize();
   }
 
